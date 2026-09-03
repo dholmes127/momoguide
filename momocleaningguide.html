@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>MOMO — Guía de Limpieza</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fffdf8;
+  --panel:#ffffff;
+  --text:#2b2317;
+  --muted:#7c8266;
+  --border:#e5e8d8;
+  --hover:#f5f7ed;
+  --accent:#a0b04e;
+  --accent-strong:#636d30;
+  --accent-contrast:#ffffff;
+  --shadow:0 10px 30px rgba(43,35,23,.14);
+  --font-body:'Raleway', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-heading:'Quicksand', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1c1911;
+    --panel:#242019;
+    --text:#efe9db;
+    --muted:#a9a488;
+    --border:#3c3729;
+    --hover:#2b2720;
+    --accent:#b7c65f;
+    --accent-strong:#dbe38f;
+    --accent-contrast:#1c1911;
+    --shadow:0 10px 30px rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1c1911;
+  --panel:#242019;
+  --text:#efe9db;
+  --muted:#a9a488;
+  --border:#3c3729;
+  --hover:#2b2720;
+  --accent:#b7c65f;
+  --accent-strong:#dbe38f;
+  --accent-contrast:#1c1911;
+  --shadow:0 10px 30px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box;}
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important;}
+}
+html,body{height:100%;}
+body{
+  margin:0;
+  font-family:var(--font-body);
+  background:var(--bg);
+  color:var(--text);
+}
+a{color:inherit;}
+button, input, select{font-family:inherit;}
+:focus-visible{outline:2px solid var(--accent-strong); outline-offset:2px;}
+.app{display:flex; flex-direction:column; height:100vh;}
+header{
+  padding:14px 26px;
+  background:var(--panel);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:12px;
+  border-bottom:2px solid var(--accent);
+  flex-shrink:0;
+}
+.brand{display:flex; align-items:center; gap:12px; cursor:pointer;}
+.brand svg{flex-shrink:0;}
+.brand .wordmark{
+  font-family:var(--font-heading);
+  font-size:19px; font-weight:700; letter-spacing:1.6px; color:var(--text);
+  text-transform:uppercase; line-height:1; margin:0;
+}
+.brand .wordmark span{color:var(--accent-strong);}
+.brand .wordmark span.guideword{
+  color:var(--muted); font-weight:600; letter-spacing:.3px; text-transform:none; font-size:14px;
+}
+.brand .tagline{
+  font-size:13px; letter-spacing:.3px; text-transform:none; color:var(--accent-strong);
+  margin:2px 0 0; font-style:italic;
+}
+.header-right{display:flex; align-items:center; gap:10px;}
+.search-wrap{position:relative;}
+#search{
+  padding:8px 14px 8px 32px;
+  border-radius:20px;
+  border:1px solid var(--border);
+  background:var(--panel);
+  width:200px;
+  font-size:14px;
+  outline:none;
+  color:var(--text);
+}
+#search:focus{border-color:var(--accent);}
+.search-wrap::before{
+  content:"⌕";
+  position:absolute; left:11px; top:50%; transform:translateY(-50%);
+  color:var(--muted); font-size:14px; font-weight:bold;
+}
+#langSelect{
+  padding:8px 10px;
+  border-radius:20px;
+  border:1px solid var(--border);
+  background:var(--panel);
+  font-size:14px;
+  color:var(--text);
+  cursor:pointer;
+}
+#langSelect:focus{border-color:var(--accent);}
+.body-wrap{display:flex; flex:1; overflow:hidden;}
+nav.sidebar{
+  width:230px;
+  background:var(--panel);
+  border-right:1px solid var(--border);
+  overflow-y:auto;
+  padding:14px 8px 40px;
+  flex-shrink:0;
+}
+.nav-home{
+  display:flex; align-items:center; gap:8px;
+  padding:9px 10px; margin-bottom:10px;
+  border-radius:8px; cursor:pointer;
+  font-size:14px; font-weight:700; color:var(--accent-strong);
+  background:var(--hover);
+}
+.nav-home.active, .nav-home:hover{background:var(--hover); box-shadow:inset 0 0 0 1px var(--accent);}
+.group-label{
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:.7px;
+  color:var(--muted);
+  font-weight:700;
+  margin:16px 10px 4px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.nav-item{
+  padding:7px 10px 7px 12px;
+  border-radius:0 6px 6px 0;
+  cursor:pointer;
+  font-size:14px;
+  color:var(--text);
+  line-height:1.3;
+  border-left:2px solid transparent;
+}
+.nav-item:hover{background:var(--hover);}
+.nav-item.active{border-left:2px solid var(--accent); background:var(--hover); font-weight:700; color:var(--accent-strong);}
+main.content{
+  flex:1;
+  overflow-y:auto;
+  padding:32px 46px 60px;
+  max-width:820px;
+}
+.crumb{font-size:13px; color:var(--muted); margin-bottom:6px; text-transform:uppercase; letter-spacing:.6px;}
+.page-title{
+  font-family:var(--font-heading);
+  font-size:26px; font-weight:700; margin:0 0 18px; color:var(--text);
+  padding-bottom:12px; border-bottom:1px solid var(--border);
+  text-wrap:balance;
+}
+.page-body p{line-height:1.65; font-size:17px; max-width:65ch;}
+.page-body ul, .page-body ol{line-height:1.65; font-size:17px; padding-left:22px; max-width:65ch;}
+.page-body h4{font-family:var(--font-heading); font-size:15.5px; color:var(--accent-strong); margin:20px 0 6px;}
+.xlink{
+  color:var(--accent-strong);
+  text-decoration:underline;
+  text-decoration-color:var(--accent);
+  text-underline-offset:2px;
+  cursor:pointer;
+  font-weight:600;
+}
+.xlink:hover{color:var(--accent);}
+.start-section-title{
+  font-family:var(--font-heading); font-size:16px; font-weight:700; color:var(--accent-strong);
+  margin:26px 0 10px; padding-bottom:6px; border-bottom:1px solid var(--border);
+}
+.page-body .start-section-title{font-size:19px; margin-top:32px;}
+.page-body .start-section-title:first-child{margin-top:0;}
+.process-box{
+  border:1px solid var(--border); border-radius:12px; background:var(--hover);
+  padding:18px 20px 16px; margin:14px 0 20px;
+}
+.process-box .setup-step-body p{font-size:14.5px; max-width:none;}
+.setup-list{display:flex; flex-direction:column; gap:14px;}
+.setup-step{display:flex; gap:14px; align-items:flex-start;}
+.setup-num{
+  flex-shrink:0; width:26px; height:26px; border-radius:50%; background:var(--accent);
+  color:var(--accent-contrast); font-family:var(--font-heading); font-weight:700; font-size:13px;
+  display:flex; align-items:center; justify-content:center; margin-top:2px;
+}
+.quick-links{
+  list-style:none; padding:0; margin:0;
+  display:grid; grid-template-columns:1fr 1fr; gap:8px 24px;
+}
+.quick-links li{
+  font-size:14px; padding:8px 0; border-bottom:1px solid var(--border);
+}
+@media (max-width:600px){ .quick-links{grid-template-columns:1fr;} }
+.empty-note{font-size:14px; color:var(--muted); font-style:italic;}
+.sr-count{font-size:14px; font-weight:400; color:var(--muted); font-family:var(--font-body);}
+.search-results{display:flex; flex-direction:column; gap:2px;}
+.search-result-item{
+  padding:14px 16px; border:1px solid var(--border); border-radius:10px; margin-bottom:10px;
+  cursor:pointer; transition:background .12s, border-color .12s; background:var(--panel);
+}
+.search-result-item:hover{background:var(--hover); border-color:var(--accent);}
+.sr-crumb{font-size:13px; text-transform:uppercase; letter-spacing:.6px; color:var(--accent-strong); font-weight:700; margin-bottom:4px;}
+.sr-title{font-family:var(--font-heading); font-size:15px; font-weight:700; color:var(--text); margin-bottom:6px;}
+.sr-snippet{font-size:14px; color:var(--muted); line-height:1.5;}
+.sr-snippet mark{background:var(--hover); color:var(--accent-strong); font-weight:700; padding:0 2px; border-radius:3px;}
+footer.stats{
+  padding:7px 26px; font-size:13px; color:var(--muted);
+  border-top:1px solid var(--border); background:var(--panel); flex-shrink:0;
+  font-variant-numeric:tabular-nums;
+}
+.stage-tabs{
+  display:flex; gap:4px; margin:16px 0 22px; background:var(--hover); padding:4px;
+  border-radius:10px; width:fit-content;
+}
+.stage-tab-btn{
+  border:none; background:transparent; padding:9px 20px; border-radius:8px;
+  font-family:var(--font-heading); font-size:14px; font-weight:700; color:var(--muted);
+  cursor:pointer; transition:background .2s ease, color .2s ease;
+}
+.stage-tab-btn.active{background:var(--panel); color:var(--text); box-shadow:0 1px 3px rgba(0,0,0,.1);}
+.stage-tab-btn:hover:not(.active){color:var(--text);}
+
+/* ---- Calendar ---- */
+.cal-grid{
+  display:grid; grid-template-columns:repeat(3, 1fr); gap:16px;
+  margin:16px 0 6px;
+}
+.cal-month{
+  border:1px solid var(--border); border-radius:10px; overflow:hidden; background:var(--panel);
+}
+.cal-month-head{
+  background:var(--accent); color:var(--accent-contrast); font-family:var(--font-heading); font-weight:700;
+  font-size:14px; text-align:center; padding:8px 6px;
+}
+.cal-month-table{width:100%; border-collapse:collapse; table-layout:fixed; font-variant-numeric:tabular-nums;}
+.cal-month-table th{
+  font-size:12px; font-weight:700; color:var(--muted); padding:6px 2px 4px; text-align:center;
+  text-transform:capitalize;
+}
+.cal-month-table td{
+  font-size:13px; text-align:center; padding:5px 2px; color:var(--text); border-radius:6px;
+}
+.cal-day-filled{
+  background:color-mix(in srgb, var(--day-color) 62%, var(--panel));
+  color:#fff; font-weight:700; text-shadow:0 1px 1px rgba(0,0,0,.25);
+  position:relative; cursor:pointer; transition:filter .12s;
+}
+.cal-day-filled:hover{filter:brightness(1.1);}
+.cal-day-dim{opacity:.32;}
+.cal-day-multi::after{
+  content:""; position:absolute; top:3px; right:4px; width:5px; height:5px;
+  border-radius:50%; background:#fff; opacity:.9;
+}
+.cal-day-popover{
+  position:fixed; z-index:80; background:var(--panel); border:1px solid var(--border); border-radius:12px;
+  box-shadow:var(--shadow); padding:14px 16px 10px; width:260px; max-width:calc(100vw - 24px);
+}
+.cal-day-popover-close{
+  position:absolute; top:8px; right:10px; background:none; border:none; cursor:pointer;
+  color:var(--muted); font-size:14px; line-height:1; padding:2px;
+}
+.cal-day-popover-close:hover{color:var(--text);}
+.cal-day-popover-date{
+  font-family:var(--font-heading); font-weight:700; font-size:13px; color:var(--accent-strong);
+  margin:0 20px 8px 0; padding-bottom:8px; border-bottom:1px solid var(--border);
+}
+.cal-day-popover-item{display:flex; align-items:flex-start; gap:9px; padding:5px 0;}
+.cal-day-popover-dot{width:9px; height:9px; border-radius:50%; margin-top:4px; flex-shrink:0;}
+.cal-day-popover-title{font-size:13.5px; color:var(--text); font-weight:600; line-height:1.4;}
+.cal-day-popover-family{font-size:12.5px; color:var(--muted); margin-top:1px;}
+@media (max-width:900px){ .cal-grid{grid-template-columns:repeat(2, 1fr);} }
+@media (max-width:600px){ .cal-grid{grid-template-columns:1fr;} }
+
+.cal-toolbar{
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px;
+  margin:18px 0 10px; padding-bottom:14px; border-bottom:1px solid var(--border);
+}
+.cal-chips{display:flex; flex-wrap:wrap; gap:8px;}
+.cal-chip{
+  display:inline-flex; align-items:center; gap:7px;
+  padding:6px 12px 6px 10px; border-radius:20px; border:1px solid var(--border);
+  background:var(--panel); font-family:var(--font-body); font-size:13.5px; color:var(--muted);
+  cursor:pointer; transition:background .12s, border-color .12s, color .12s; opacity:.55;
+}
+.cal-chip.active{opacity:1; border-color:var(--chip-color); color:var(--text); background:color-mix(in srgb, var(--chip-color) 16%, var(--panel));}
+.cal-chip-dot{width:9px; height:9px; border-radius:50%; background:var(--chip-color); flex-shrink:0;}
+.cal-toolbar-actions{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+.cal-btn-text{
+  background:none; border:none; color:var(--muted); font-family:var(--font-body); font-size:14px;
+  text-decoration:underline; cursor:pointer; padding:2px 0;
+}
+.cal-btn-text:hover{color:var(--text);}
+.cal-btn-primary{
+  background:var(--accent); color:var(--accent-contrast); border:none; border-radius:20px;
+  padding:9px 16px; font-family:var(--font-body); font-weight:600; font-size:14px; cursor:pointer;
+}
+.cal-btn-primary:hover{background:var(--accent-strong); color:var(--accent-contrast);}
+.cal-family-bar{
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin:2px 0 18px; font-size:14px; color:var(--muted);
+}
+#familyFilter{
+  padding:7px 12px; border-radius:20px; border:1px solid var(--border); background:var(--panel);
+  font-size:14px; color:var(--text); cursor:pointer;
+}
+#familyFilter:focus{border-color:var(--accent);}
+.cal-section-label{
+  font-family:var(--font-heading); font-weight:700; font-size:13px; letter-spacing:.4px;
+  text-transform:uppercase; color:var(--muted); margin:22px 0 8px;
+}
+.cal-list{display:flex; flex-direction:column; gap:8px;}
+.cal-card{
+  display:flex; align-items:center; gap:12px;
+  padding:12px 14px; border:1px solid var(--border); border-radius:10px; background:var(--panel);
+}
+.cal-card-dot{width:11px; height:11px; border-radius:50%; background:var(--chip-color); flex-shrink:0;}
+.cal-card-body{flex:1; min-width:0;}
+.cal-card-title{font-size:14px; color:var(--text); font-weight:600; line-height:1.4;}
+.cal-card-date{font-size:13.5px; color:var(--muted); margin-top:2px; font-variant-numeric:tabular-nums;}
+.cal-add-btn{
+  flex-shrink:0; background:var(--hover); border:1px solid var(--border); border-radius:16px;
+  padding:6px 12px; font-family:var(--font-body); font-size:13.5px; color:var(--text); cursor:pointer;
+  white-space:nowrap;
+}
+.cal-add-btn:hover{border-color:var(--accent); color:var(--accent-strong);}
+@media (max-width:760px){
+  .cal-toolbar{flex-direction:column; align-items:stretch;}
+  .cal-card{flex-wrap:wrap;}
+}
+
+.menu-toggle{
+  display:none; flex-direction:column; justify-content:center; gap:4px;
+  width:34px; height:34px; border:1px solid var(--border); border-radius:8px;
+  background:var(--panel); cursor:pointer; padding:0 7px; flex-shrink:0;
+}
+.menu-toggle span{display:block; width:100%; height:2px; background:var(--text); border-radius:2px;}
+.sidebar-backdrop{display:none;}
+@media (max-width:760px){
+  header{padding:12px 16px;}
+  .menu-toggle{display:flex; order:2; margin-left:auto;}
+  .brand{order:1;}
+  .brand .wordmark{font-size:16px;}
+  .header-right{order:3; flex-basis:100%; justify-content:flex-end; gap:8px; margin-top:6px;}
+  #search{width:140px;}
+  main.content{padding:20px; max-width:100%;}
+  nav.sidebar{
+    position:fixed; top:0; left:0; height:100%; width:82vw; max-width:300px; z-index:60;
+    transform:translateX(-100%); transition:transform .25s ease;
+    box-shadow:2px 0 20px rgba(0,0,0,.18); padding-top:18px;
+  }
+  .app.sidebar-open nav.sidebar{transform:translateX(0);}
+  .sidebar-backdrop{display:none; position:fixed; inset:0; background:rgba(20,16,10,.4); z-index:55;}
+  .app.sidebar-open .sidebar-backdrop{display:block;}
+  .app.sidebar-open{overflow:hidden;}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu" type="button">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="brand" id="brandHome">
+      <svg width="44" height="40" viewBox="0 0 60 54" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <g stroke="var(--text)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <line x1="27" y1="4" x2="20" y2="30"/>
+    <path d="M20 30 L34 30 L38 46 L12 46 Z"/>
+    <line x1="18" y1="34" x2="15" y2="46"/>
+    <line x1="23" y1="32" x2="21" y2="46"/>
+    <line x1="28" y1="31" x2="27" y2="46"/>
+    <line x1="33" y1="32" x2="33" y2="46"/>
+  </g>
+  <g stroke="var(--accent-strong)" stroke-width="1.8" stroke-linecap="round">
+    <path d="M44 10 L44 18 M40 14 L48 14"/>
+    <path d="M51 25 L51 30 M48.5 27.5 L53.5 27.5"/>
+  </g>
+</svg>
+      <div>
+        <p class="wordmark">MO<span>MO</span> <span class="guideword" id="guideWord">Guía de Limpieza</span></p>
+        <p class="tagline" id="tagline">escola viva · Turnos de limpieza en familia</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <select id="langSelect">
+        <option value="es">ES — Español</option>
+        <option value="ca">CA — Català</option>
+        <option value="en">EN — English</option>
+      </select>
+      <div class="search-wrap">
+        <input id="search" oninput="runSearch()">
+      </div>
+    </div>
+  </header>
+  <div class="body-wrap">
+    <nav class="sidebar" id="sidebar"></nav>
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+    <main class="content" id="content"></main>
+  </div>
+  <footer class="stats" id="stats"></footer>
+</div>
+
+<script>
+const PAGES = [{"id": "calendar", "group": "turnos", "title": {"es": "Calendario de turnos", "ca": "Calendari de torns", "en": "Shift Calendar"}, "body": {"es": "<p>Consulta quién limpia cada espacio este mes. Toca un día para ver el detalle, o usa el botón de cada turno para añadirlo a tu calendario personal (Google, Outlook, Apple…).</p>\n<div id=\"calendar-mount\"></div>", "ca": "<p>Consulta qui neteja cada espai aquest mes. Toca un dia per veure el detall, o fes servir el botó de cada torn per afegir-lo al teu calendari personal (Google, Outlook, Apple…).</p>\n<div id=\"calendar-mount\"></div>", "en": "<p>See who cleans each space this month. Tap a day for the details, or use each shift's button to add it to your personal calendar (Google, Outlook, Apple…).</p>\n<div id=\"calendar-mount\"></div>"}}, {"id": "criterios", "group": "guia", "title": {"es": "Criterios de limpieza", "ca": "Criteris de neteja", "en": "Cleaning Criteria"}, "body": {"es": "<h3 class=\"start-section-title\">Asignación de turnos de limpieza</h3>\n<p>La limpieza de Momo la asumen las familias, con la finalidad de que, por un lado, las familias que lo necesiten puedan descontar cuota, y por otro, cubrir la necesidad de limpieza de los espacios sin externalizarla. Los turnos se asignan siguiendo estos criterios de preferencia:</p>\n<ol>\n<li>Las familias más antiguas tienen prioridad para elegir día y turno.</li>\n<li>Las familias que acogen más turnos al mes tienen prioridad a la hora de elegir días y turnos fijos.</li>\n<li>Se tendrán en cuenta las preferencias de las familias para poder conciliar según la disponibilidad, con la idea de asignar días y turno según sus deseos y dar estabilidad al calendario mensual.</li>\n</ol>\n<h3 class=\"start-section-title\">Autogestión: cambios e imprevistos</h3>\n<p>Cada familia es responsable de recordar y cubrir su turno. Recomendamos que cada familia revise el calendario mensual en cuanto se haga llegar a las familias y <strong>se programe una alarma/aviso</strong> en su calendario para evitar olvidos — puedes hacerlo directamente desde el [[calendar|calendario de turnos]] con el botón de añadir al calendario.</p>\n<p>Cuando una familia necesite un cambio de turno una vez confirmado el calendario mensual, deberá solicitarlo de forma autónoma lo antes posible a través del chat de limpieza.</p>\n<p>El turno se puede cubrir a partir de las 15h de la tarde y hasta las 8h de la mañana del día siguiente.</p>\n<p>Si una familia <strong>olvida o no puede cubrir</strong> su turno durante la tarde, puede acudir a la mañana siguiente. Si no tiene posibilidad de cubrir todas las funciones, deberá realizar las <strong>funciones básicas mínimas</strong> (basuras, baños y suelos, barrer por lo menos) y se contabilizará como <strong>medio turno (15€)</strong>.</p>", "ca": "<h3 class=\"start-section-title\">Assignació de torns de neteja</h3>\n<p>La neteja de Momo l'assumeixen les famílies, amb la finalitat que, d'una banda, les famílies que ho necessitin puguin descomptar quota, i de l'altra, cobrir la necessitat de neteja dels espais sense externalitzar-la. Els torns s'assignen seguint aquests criteris de preferència:</p>\n<ol>\n<li>Les famílies més antigues tenen prioritat per triar dia i torn.</li>\n<li>Les famílies que acullen més torns al mes tenen prioritat a l'hora de triar dies i torns fixos.</li>\n<li>Es tindran en compte les preferències de les famílies per poder conciliar segons la disponibilitat, amb la idea d'assignar dies i torn segons els seus desitjos i donar estabilitat al calendari mensual.</li>\n</ol>\n<h3 class=\"start-section-title\">Autogestió: canvis i imprevistos</h3>\n<p>Cada família és responsable de recordar i cobrir el seu torn. Recomanem que cada família revisi el calendari mensual tan bon punt es faci arribar a les famílies i <strong>es programi una alarma/avís</strong> al seu calendari per evitar oblits — pots fer-ho directament des del [[calendar|calendari de torns]] amb el botó d'afegir al calendari.</p>\n<p>Quan una família necessiti un canvi de torn un cop confirmat el calendari mensual, l'haurà de sol·licitar de forma autònoma com més aviat millor a través del xat de neteja.</p>\n<p>El torn es pot cobrir a partir de les 15h de la tarda i fins a les 8h del matí de l'endemà.</p>\n<p>Si una família <strong>oblida o no pot cobrir</strong> el seu torn durant la tarda, pot venir l'endemà al matí. Si no té possibilitat de cobrir totes les funcions, haurà de fer les <strong>funcions bàsiques mínimes</strong> (escombraries, banys i terres, escombrar com a mínim) i es comptabilitzarà com a <strong>mig torn (15€)</strong>.</p>", "en": "<h3 class=\"start-section-title\">Assigning cleaning shifts</h3>\n<p>Cleaning at Momo is taken on by the families, so that, on one hand, families who need it can discount their fee, and on the other, the school's cleaning needs are covered without outsourcing them. Shifts are assigned following these criteria, in order of preference:</p>\n<ol>\n<li>Longer-standing families get priority in choosing their day and shift.</li>\n<li>Families taking on more shifts per month get priority when choosing fixed days and shifts.</li>\n<li>Families' preferences are taken into account so schedules can work around availability, assigning days and shifts according to what they want and keeping the monthly calendar stable.</li>\n</ol>\n<h3 class=\"start-section-title\">Self-management: swaps and last-minute changes</h3>\n<p>Each family is responsible for remembering and covering their shift. We recommend reviewing the monthly calendar as soon as it's shared, and <strong>setting an alarm/reminder</strong> on your own calendar to avoid forgetting — you can do this straight from the [[calendar|shift calendar]] with the add-to-calendar button.</p>\n<p>If a family needs to swap a shift once the monthly calendar is confirmed, they should request it on their own, as soon as possible, through the cleaning chat.</p>\n<p>A shift can be covered any time from 3pm to 8am the next morning.</p>\n<p>If a family <strong>forgets or can't cover</strong> their shift in the afternoon, they can come in the next morning instead. If they can't manage every task, they must at least do the <strong>minimum basic tasks</strong> (rubbish, bathrooms and floors, sweeping at least), and it will count as a <strong>half shift (€15)</strong>.</p>"}}, {"id": "infantil", "group": "guia", "title": {"es": "Limpieza Infantil", "ca": "Neteja Infantil", "en": "Preschool Cleaning"}, "body": {"es": "<p><strong>Incluye:</strong> GIGI, CASIOPEA, BEPO, MESTREHORES (comedor) y SALA POLIVALENTE.</p>\n<div class=\"stage-tabs\">\n<button type=\"button\" class=\"stage-tab-btn active\" data-stage=\"daily\">Funciones diarias</button>\n<button type=\"button\" class=\"stage-tab-btn\" data-stage=\"weekly\">Funciones semanales</button>\n</div>\n<div class=\"stage-panel\" data-stage-panel=\"daily\">\n<h4>Baños completos (4)</h4>\n<ul>\n<li>A fondo WC (vinagre / alcohol)</li>\n<li>Limpieza de escobillas de WC y soporte (alcohol)</li>\n<li>Lavamanos y grifería / picas (vinagre / alcohol)</li>\n<li>Espejo (vinagre)</li>\n<li>Jabón de manos: reponer y dejar limpio y seco</li>\n<li>Toallas amarillas: sacar las sucias/mojadas y colocar nuevas (1 por baño)</li>\n<li>Reponer papel higiénico</li>\n<li>Estantes y superficies (con gel hidroalcohólico / alcohol)</li>\n<li>Suelos: barrer y fregar (friegasuelos)</li>\n</ul>\n<h4>Papeleras</h4>\n<p>Reutilizar las bolsas siempre que se pueda: cambiar + sacar la basura.</p>\n<h4>Superficies</h4>\n<ul>\n<li>Mesas</li>\n<li>Sillas</li>\n<li>Revisar superficies y puertas: estanterías bajas, radiadores, y revisar manchas de pintura, lápiz/boli, comida… en las superficies que lo necesiten.</li>\n</ul>\n<h4>Suelos</h4>\n<ul>\n<li>Barrer / aspirar</li>\n<li>Fregar (friegasuelos)</li>\n<li>Alfombras: aspirar / sacudir en el exterior</li>\n</ul>\n<h4>Mestrehores (comedor) y Atelier</h4>\n<p>Higienización y desinfección de la pica del comedor y del exterior del atelier (vinagre / alcohol).</p>\n<h4>Reponer trapos</h4>\n<ul>\n<li>Un trapo azul y uno verde debajo de cada lavamanos.</li>\n<li>Una toalla amarilla para las manos en cada colgador de baño.</li>\n</ul>\n<h4>Recoger toallas y trapos</h4>\n<p>Recoger toallas y trapos sucios (sólo los que realmente haya que cambiar) y subirlos a la lavadora.</p>\n<h4>Material de limpieza</h4>\n<p>Dejar limpio y ordenado el material de limpieza (escobas, recogedores, fregonas, cubos…). En el Atelier va la escoba, el recogedor, la fregona y el cubo (hay un espacio para ello). En GIGI y en CASIOPEA, en cada lavabo va una escoba y un recogedor de interior. En Polivalente va un recogedor, una escoba, una fregona y un cubo.</p>\n</div>\n<div class=\"stage-panel\" data-stage-panel=\"weekly\" style=\"display:none;\">\n<ul>\n<li>Microondas (Patricia)</li>\n<li>Barrer exteriores (Marta)</li>\n</ul>\n</div>", "ca": "<p><strong>Inclou:</strong> GIGI, CASIOPEA, BEPO, MESTREHORES (menjador) i SALA POLIVALENT.</p>\n<div class=\"stage-tabs\">\n<button type=\"button\" class=\"stage-tab-btn active\" data-stage=\"daily\">Funcions diàries</button>\n<button type=\"button\" class=\"stage-tab-btn\" data-stage=\"weekly\">Funcions setmanals</button>\n</div>\n<div class=\"stage-panel\" data-stage-panel=\"daily\">\n<h4>Banys complets (4)</h4>\n<ul>\n<li>A fons WC (vinagre / alcohol)</li>\n<li>Neteja d'escombretes de WC i suport (alcohol)</li>\n<li>Rentamans i aixetes / piques (vinagre / alcohol)</li>\n<li>Mirall (vinagre)</li>\n<li>Sabó de mans: reposar i deixar net i sec</li>\n<li>Tovalloles grogues: treure les brutes/mullades i posar-ne de noves (1 per bany)</li>\n<li>Reposar paper higiènic</li>\n<li>Prestatges i superfícies (amb gel hidroalcohòlic / alcohol)</li>\n<li>Terres: escombrar i fregar (fregasòls)</li>\n</ul>\n<h4>Papereres</h4>\n<p>Reutilitzar les bosses sempre que es pugui: canviar + treure les escombraries.</p>\n<h4>Superfícies</h4>\n<ul>\n<li>Taules</li>\n<li>Cadires</li>\n<li>Revisar superfícies i portes: prestatgeries baixes, radiadors, i revisar taques de pintura, llapis/bolígraf, menjar… a les superfícies que ho necessitin.</li>\n</ul>\n<h4>Terres</h4>\n<ul>\n<li>Escombrar / aspirar</li>\n<li>Fregar (fregasòls)</li>\n<li>Catifes: aspirar / espolsar a l'exterior</li>\n</ul>\n<h4>Mestrehores (menjador) i Atelier</h4>\n<p>Higienització i desinfecció de la pica del menjador i de l'exterior de l'atelier (vinagre / alcohol).</p>\n<h4>Reposar draps</h4>\n<ul>\n<li>Un drap blau i un de verd sota de cada rentamans.</li>\n<li>Una tovallola groga per a les mans a cada penjador de bany.</li>\n</ul>\n<h4>Recollir tovalloles i draps</h4>\n<p>Recollir tovalloles i draps bruts (només els que realment calgui canviar) i pujar-los a la rentadora.</p>\n<h4>Material de neteja</h4>\n<p>Deixar net i endreçat el material de neteja (escombres, recollidors, baietes de terra, galledes…). A l'Atelier hi va l'escombra, el recollidor, la baieta de terra i la galleda (hi ha un espai per a això). A GIGI i a CASIOPEA, a cada lavabo hi va una escombra i un recollidor d'interior. A Polivalent hi va un recollidor, una escombra, una baieta de terra i una galleda.</p>\n</div>\n<div class=\"stage-panel\" data-stage-panel=\"weekly\" style=\"display:none;\">\n<ul>\n<li>Microones (Patricia)</li>\n<li>Escombrar exteriors (Marta)</li>\n</ul>\n</div>", "en": "<p><strong>Includes:</strong> GIGI, CASIOPEA, BEPO, MESTREHORES (dining room) and the MULTI-PURPOSE ROOM.</p>\n<div class=\"stage-tabs\">\n<button type=\"button\" class=\"stage-tab-btn active\" data-stage=\"daily\">Daily tasks</button>\n<button type=\"button\" class=\"stage-tab-btn\" data-stage=\"weekly\">Weekly tasks</button>\n</div>\n<div class=\"stage-panel\" data-stage-panel=\"daily\">\n<h4>Full bathrooms (4)</h4>\n<ul>\n<li>Deep-clean the toilet (vinegar / alcohol)</li>\n<li>Clean toilet brushes and holders (alcohol)</li>\n<li>Sinks and taps / basins (vinegar / alcohol)</li>\n<li>Mirror (vinegar)</li>\n<li>Hand soap: refill, and leave clean and dry</li>\n<li>Yellow towels: take down the dirty/wet ones and hang fresh ones (1 per bathroom)</li>\n<li>Refill toilet paper</li>\n<li>Shelves and surfaces (with hydroalcoholic gel / alcohol)</li>\n<li>Floors: sweep and mop (floor cleaner)</li>\n</ul>\n<h4>Bins</h4>\n<p>Reuse bags whenever possible: swap them + take out the rubbish.</p>\n<h4>Surfaces</h4>\n<ul>\n<li>Tables</li>\n<li>Chairs</li>\n<li>Check surfaces and doors: low shelving, radiators, and check for paint, pencil/pen or food marks… on any surface that needs it.</li>\n</ul>\n<h4>Floors</h4>\n<ul>\n<li>Sweep / vacuum</li>\n<li>Mop (floor cleaner)</li>\n<li>Rugs: vacuum / shake out outdoors</li>\n</ul>\n<h4>Mestrehores (dining room) and Atelier</h4>\n<p>Sanitize and disinfect the dining-room sink and the outside of the Atelier (vinegar / alcohol).</p>\n<h4>Restock cloths</h4>\n<ul>\n<li>One blue cloth and one green cloth under each sink.</li>\n<li>One yellow hand towel on each bathroom hook.</li>\n</ul>\n<h4>Collect towels and cloths</h4>\n<p>Collect dirty towels and cloths (only the ones that actually need changing) and take them up to the washing machine.</p>\n<h4>Cleaning materials</h4>\n<p>Leave the cleaning materials clean and put away (brooms, dustpans, mops, buckets…). In the Atelier: the broom, dustpan, mop and bucket go in the space set aside for them. In GIGI and CASIOPEA, each bathroom gets an indoor broom and dustpan. In the Multi-Purpose Room: a dustpan, broom, mop and bucket.</p>\n</div>\n<div class=\"stage-panel\" data-stage-panel=\"weekly\" style=\"display:none;\">\n<ul>\n<li>Microwave (Patricia)</li>\n<li>Sweep outdoor areas (Marta)</li>\n</ul>\n</div>"}}, {"id": "primaria", "group": "guia", "title": {"es": "Limpieza Primaria", "ca": "Neteja Primària", "en": "Primary Cleaning"}, "body": {"es": "<p><strong>Incluye:</strong> PL.1, PL.2, PL.3 y ESCALERAS.</p>\n<div class=\"stage-tabs\">\n<button type=\"button\" class=\"stage-tab-btn active\" data-stage=\"daily\">Funciones diarias</button>\n<button type=\"button\" class=\"stage-tab-btn\" data-stage=\"weekly\">Funciones semanales + a fondo</button>\n</div>\n<div class=\"stage-panel\" data-stage-panel=\"daily\">\n<h4>Baños completos (4)</h4>\n<ul>\n<li>A fondo WC (vinagre / alcohol)</li>\n<li>Limpieza de escobillas de WC y soporte (alcohol)</li>\n<li>Lavamanos y grifería / picas (vinagre / alcohol)</li>\n<li>Espejo (vinagre)</li>\n<li>Jabón de manos: reponer y dejar limpio y seco</li>\n<li>Toallas amarillas: sacar las sucias/mojadas y colocar nuevas. 2 amarillas por baño, salvo el baño pequeño acoplado a PL.1 y el baño de PL.2, en los que sólo se pone 1 toalla.</li>\n<li>Reponer papel higiénico</li>\n<li>Estantes y superficies (con gel hidroalcohólico / alcohol)</li>\n<li>Suelos: barrer y fregar (friegasuelos)</li>\n</ul>\n<h4>Papeleras</h4>\n<p>Reutilizar las bolsas siempre que se pueda: cambiar + sacar la basura.</p>\n<h4>Superficies</h4>\n<ul>\n<li>Mesas</li>\n<li>Sillas del comedor</li>\n<li>Revisar superficies y puertas (p. ej. comida, pintura…)</li>\n</ul>\n<h4>Suelos</h4>\n<ul>\n<li>Barrer / aspirar</li>\n<li>Fregar (friegasuelos)</li>\n<li>Alfombras: aspirar o escoba para alfombras</li>\n</ul>\n<h4>Reponer trapos y botes de baños, salas y comedor</h4>\n<ul>\n<li>3 trapos verdes en el comedor (caja) + reponer jabón de manos + reponer \"Fairy\"</li>\n<li>1 trapo azul en cada baño para emergencias + reponer jabón de manos</li>\n</ul>\n<h4>Recoger toallas y trapos</h4>\n<p>Recoger toallas y trapos sucios y subirlos a la lavadora (en los baños, las amarillas; y en las salas de arte, las otras).</p>\n<h4>Material de limpieza</h4>\n<p>Dejar limpio y ordenado el material de limpieza (escobas, recogedores, fregonas, cubos…).</p>\n</div>\n<div class=\"stage-panel\" data-stage-panel=\"weekly\" style=\"display:none;\">\n<h4>A fondo semanal (Patricia)</h4>\n<ul>\n<li>Microondas a fondo (4)</li>\n<li>Espejos de los distintos espacios</li>\n<li>Pizarras</li>\n<li>Estanterías</li>\n<li>Puertas, interruptores, barandillas, rincones, pomos, mover muebles, etc.</li>\n<li>Cristales interiores (de las puertas, de separaciones… revisión de ventanas por si hay algo urgente)</li>\n</ul>\n</div>", "ca": "<p><strong>Inclou:</strong> PL.1, PL.2, PL.3 i ESCALES.</p>\n<div class=\"stage-tabs\">\n<button type=\"button\" class=\"stage-tab-btn active\" data-stage=\"daily\">Funcions diàries</button>\n<button type=\"button\" class=\"stage-tab-btn\" data-stage=\"weekly\">Funcions setmanals + a fons</button>\n</div>\n<div class=\"stage-panel\" data-stage-panel=\"daily\">\n<h4>Banys complets (4)</h4>\n<ul>\n<li>A fons WC (vinagre / alcohol)</li>\n<li>Neteja d'escombretes de WC i suport (alcohol)</li>\n<li>Rentamans i aixetes / piques (vinagre / alcohol)</li>\n<li>Mirall (vinagre)</li>\n<li>Sabó de mans: reposar i deixar net i sec</li>\n<li>Tovalloles grogues: treure les brutes/mullades i posar-ne de noves. 2 tovalloles per bany, excepte el bany petit acoblat a PL.1 i el bany de PL.2, on només se'n posa 1.</li>\n<li>Reposar paper higiènic</li>\n<li>Prestatges i superfícies (amb gel hidroalcohòlic / alcohol)</li>\n<li>Terres: escombrar i fregar (fregasòls)</li>\n</ul>\n<h4>Papereres</h4>\n<p>Reutilitzar les bosses sempre que es pugui: canviar + treure les escombraries.</p>\n<h4>Superfícies</h4>\n<ul>\n<li>Taules</li>\n<li>Cadires del menjador</li>\n<li>Revisar superfícies i portes (p. ex. menjar, pintura…)</li>\n</ul>\n<h4>Terres</h4>\n<ul>\n<li>Escombrar / aspirar</li>\n<li>Fregar (fregasòls)</li>\n<li>Catifes: aspirar o escombra per a catifes</li>\n</ul>\n<h4>Reposar draps i ampolles de banys, sales i menjador</h4>\n<ul>\n<li>3 draps verds al menjador (caixa) + reposar sabó de mans + reposar \"Fairy\"</li>\n<li>1 drap blau a cada bany per a emergències + reposar sabó de mans</li>\n</ul>\n<h4>Recollir tovalloles i draps</h4>\n<p>Recollir tovalloles i draps bruts i pujar-los a la rentadora (als banys, les grogues; i a les sales d'art, les altres).</p>\n<h4>Material de neteja</h4>\n<p>Deixar net i endreçat el material de neteja (escombres, recollidors, baietes de terra, galledes…).</p>\n</div>\n<div class=\"stage-panel\" data-stage-panel=\"weekly\" style=\"display:none;\">\n<h4>A fons setmanal (Patricia)</h4>\n<ul>\n<li>Microones a fons (4)</li>\n<li>Miralls dels diferents espais</li>\n<li>Pissarres</li>\n<li>Prestatgeries</li>\n<li>Portes, interruptors, baranes, racons, poms, moure mobles, etc.</li>\n<li>Vidres interiors (de les portes, de separacions… revisió de finestres per si hi ha res urgent)</li>\n</ul>\n</div>", "en": "<p><strong>Includes:</strong> PL.1, PL.2, PL.3 and the STAIRS.</p>\n<div class=\"stage-tabs\">\n<button type=\"button\" class=\"stage-tab-btn active\" data-stage=\"daily\">Daily tasks</button>\n<button type=\"button\" class=\"stage-tab-btn\" data-stage=\"weekly\">Weekly + deep-clean tasks</button>\n</div>\n<div class=\"stage-panel\" data-stage-panel=\"daily\">\n<h4>Full bathrooms (4)</h4>\n<ul>\n<li>Deep-clean the toilet (vinegar / alcohol)</li>\n<li>Clean toilet brushes and holders (alcohol)</li>\n<li>Sinks and taps / basins (vinegar / alcohol)</li>\n<li>Mirror (vinegar)</li>\n<li>Hand soap: refill, and leave clean and dry</li>\n<li>Yellow towels: take down the dirty/wet ones and hang fresh ones. 2 towels per bathroom, except the small bathroom attached to PL.1 and the PL.2 bathroom, which only get 1.</li>\n<li>Refill toilet paper</li>\n<li>Shelves and surfaces (with hydroalcoholic gel / alcohol)</li>\n<li>Floors: sweep and mop (floor cleaner)</li>\n</ul>\n<h4>Bins</h4>\n<p>Reuse bags whenever possible: swap them + take out the rubbish.</p>\n<h4>Surfaces</h4>\n<ul>\n<li>Tables</li>\n<li>Dining-room chairs</li>\n<li>Check surfaces and doors (e.g. food, paint…)</li>\n</ul>\n<h4>Floors</h4>\n<ul>\n<li>Sweep / vacuum</li>\n<li>Mop (floor cleaner)</li>\n<li>Rugs: vacuum, or a rug broom</li>\n</ul>\n<h4>Restock cloths and bottles in bathrooms, rooms and the dining room</h4>\n<ul>\n<li>3 green cloths in the dining room (box) + refill hand soap + refill washing-up liquid (\"Fairy\")</li>\n<li>1 blue cloth in each bathroom for emergencies + refill hand soap</li>\n</ul>\n<h4>Collect towels and cloths</h4>\n<p>Collect dirty towels and cloths and take them up to the washing machine (yellow ones from the bathrooms; the others from the art rooms).</p>\n<h4>Cleaning materials</h4>\n<p>Leave the cleaning materials clean and put away (brooms, dustpans, mops, buckets…).</p>\n</div>\n<div class=\"stage-panel\" data-stage-panel=\"weekly\" style=\"display:none;\">\n<h4>Weekly deep clean (Patricia)</h4>\n<ul>\n<li>Deep-clean the microwaves (4)</li>\n<li>Mirrors in every space</li>\n<li>Whiteboards</li>\n<li>Shelving units</li>\n<li>Doors, light switches, handrails, corners, door handles, moving furniture, etc.</li>\n<li>Interior glass (doors, partitions… checking windows in case anything's urgent)</li>\n</ul>\n</div>"}}, {"id": "productos", "group": "guia", "title": {"es": "Productos y procedimientos", "ca": "Productes i procediments", "en": "Products & Procedures"}, "body": {"es": "<h3 class=\"start-section-title\">Responsabilidades</h3>\n<ul>\n<li><strong>Ana y Noemí</strong> se encargan de la compra de los productos.</li>\n<li><strong>Sara y Patricia</strong> se encargan de hacer los preparados de los productos.</li>\n<li><strong>Yolanda</strong> se encarga de revisar que los materiales estén en su lugar y de poner en lejía, de vez en cuando, las fregonas para la desinfección y limpieza a fondo del material.</li>\n<li><strong>Las acompañantes</strong> se encargan de que los espacios queden ordenados y las mesas del comedor limpias.</li>\n</ul>\n<h3 class=\"start-section-title\">Productos</h3>\n<ul>\n<li>Bicarbonato de sodio, para poder frotar los WC por dentro.</li>\n<li>Vinagre de limpieza, para todo lo que se vea \"afectado\" por la cal del agua.</li>\n<li>Friegasuelos</li>\n<li>Gel hidroalcohólico</li>\n<li>Alcohol 70º</li>\n<li>Gel de manos nacarado</li>\n<li>Detergente lavaplatos, para el bote del comedor</li>\n</ul>\n<h3 class=\"start-section-title\">Limpieza de lavabos</h3>\n<p>Productos: vinagre de limpieza, bicarbonato de sodio, alcohol y friegasuelos.</p>\n<div class=\"process-box\"><div class=\"setup-list\">\n<div class=\"setup-step\"><div class=\"setup-num\">1</div><div class=\"setup-step-body\"><p>Zona interna con vinagre de limpieza (un chorro o spray) que busca desincrustar la suciedad y cal internas. Dejar actuar un mínimo de 10 minutos.</p></div></div>\n<div class=\"setup-step\"><div class=\"setup-num\">2</div><div class=\"setup-step-body\"><p>Posteriormente se puede usar el bicarbonato para \"arrastrar\" y frotar esa suciedad junto con la escobilla.</p></div></div>\n<div class=\"setup-step\"><div class=\"setup-num\">3</div><div class=\"setup-step-body\"><p>Aclarado y desinfección tanto de la zona interna como externa del WC a fondo, con el alcohol en spray.</p></div></div>\n<div class=\"setup-step\"><div class=\"setup-num\">4</div><div class=\"setup-step-body\"><p>En la zona externa: limpieza con vinagre de limpieza en un primer paso, y desinfección con alcohol en todas las superficies en un segundo paso final.</p></div></div>\n<div class=\"setup-step\"><div class=\"setup-num\">5</div><div class=\"setup-step-body\"><p>Espejo y grifería con vinagre en spray y la bayeta. La grifería se debe desinfectar con alcohol en spray.</p></div></div>\n<div class=\"setup-step\"><div class=\"setup-num\">6</div><div class=\"setup-step-body\"><p>Barrer y fregar el suelo con el friegasuelos.</p></div></div>\n</div></div>\n<h3 class=\"start-section-title\">Limpieza de suelos</h3>\n<p>Importante barrer/aspirar Y fregar los suelos. Dejar limpio y guardado en su lugar el material.</p>\n<p>Utilizar un chorrito del preparado de friegasuelos (garrafas de 5l) por cada cubo de agua que se utilice (el preparado lleva jabón y algo de lejía para desinfectar).</p>\n<h3 class=\"start-section-title\">Superficies sin agua</h3>\n<p>Utilizar los dosificadores de gel hidroalcohólico, hasta que se acabe este producto, para las superficies que no se pueden dañar. Posteriormente se pasará a utilizar el alcohol como desinfectante.</p>", "ca": "<h3 class=\"start-section-title\">Responsabilitats</h3>\n<ul>\n<li><strong>Ana i Noemí</strong> s'encarreguen de la compra dels productes.</li>\n<li><strong>Sara i Patricia</strong> s'encarreguen de fer els preparats dels productes.</li>\n<li><strong>Yolanda</strong> s'encarrega de revisar que els materials estiguin al seu lloc i de posar en lleixiu, de tant en tant, les baietes de terra per a la desinfecció i neteja a fons del material.</li>\n<li><strong>Les acompanyants</strong> s'encarreguen que els espais quedin endreçats i les taules del menjador netes.</li>\n</ul>\n<h3 class=\"start-section-title\">Productes</h3>\n<ul>\n<li>Bicarbonat de sodi, per poder fregar els WC per dins.</li>\n<li>Vinagre de neteja, per a tot allò que es vegi \"afectat\" per la calç de l'aigua.</li>\n<li>Fregasòls</li>\n<li>Gel hidroalcohòlic</li>\n<li>Alcohol 70º</li>\n<li>Gel de mans nacrat</li>\n<li>Detergent rentaplats, per a l'ampolla del menjador</li>\n</ul>\n<h3 class=\"start-section-title\">Neteja de lavabos</h3>\n<p>Productes: vinagre de neteja, bicarbonat de sodi, alcohol i fregasòls.</p>\n<div class=\"process-box\"><div class=\"setup-list\">\n<div class=\"setup-step\"><div class=\"setup-num\">1</div><div class=\"setup-step-body\"><p>Zona interna amb vinagre de neteja (un raig o esprai) que busca desincrustar la brutícia i la calç internes. Deixar actuar un mínim de 10 minuts.</p></div></div>\n<div class=\"setup-step\"><div class=\"setup-num\">2</div><div class=\"setup-step-body\"><p>Posteriorment es pot fer servir el bicarbonat per \"arrossegar\" i fregar aquesta brutícia amb l'escombreta.</p></div></div>\n<div class=\"setup-step\"><div class=\"setup-num\">3</div><div class=\"setup-step-body\"><p>Aclarit i desinfecció tant de la zona interna com externa del WC a fons, amb l'alcohol en esprai.</p></div></div>\n<div class=\"setup-step\"><div class=\"setup-num\">4</div><div class=\"setup-step-body\"><p>A la zona externa: neteja amb vinagre de neteja en un primer pas, i desinfecció amb alcohol a totes les superfícies en un segon pas final.</p></div></div>\n<div class=\"setup-step\"><div class=\"setup-num\">5</div><div class=\"setup-step-body\"><p>Mirall i aixetes amb vinagre en esprai i la baieta. Les aixetes s'han de desinfectar amb alcohol en esprai.</p></div></div>\n<div class=\"setup-step\"><div class=\"setup-num\">6</div><div class=\"setup-step-body\"><p>Escombrar i fregar el terra amb el fregasòls.</p></div></div>\n</div></div>\n<h3 class=\"start-section-title\">Neteja de terres</h3>\n<p>És important escombrar/aspirar I fregar els terres. Deixar net i desat al seu lloc el material.</p>\n<p>Fer servir un raig del preparat de fregasòls (garrafes de 5l) per cada galleda d'aigua que es faci servir (el preparat porta sabó i una mica de lleixiu per desinfectar).</p>\n<h3 class=\"start-section-title\">Superfícies sense aigua</h3>\n<p>Fer servir els dosificadors de gel hidroalcohòlic, fins que s'acabi aquest producte, per a les superfícies que no es poden fer malbé. Posteriorment es passarà a fer servir l'alcohol com a desinfectant.</p>", "en": "<h3 class=\"start-section-title\">Responsibilities</h3>\n<ul>\n<li><strong>Ana and Noemí</strong> handle buying the products.</li>\n<li><strong>Sara and Patricia</strong> handle mixing the product solutions.</li>\n<li><strong>Yolanda</strong> checks that materials are in their place and, from time to time, soaks the mops in bleach to disinfect and deep-clean them.</li>\n<li><strong>The accompanying staff</strong> make sure spaces stay tidy and dining-room tables stay clean.</li>\n</ul>\n<h3 class=\"start-section-title\">Products</h3>\n<ul>\n<li>Baking soda (sodium bicarbonate), for scrubbing the inside of the toilets.</li>\n<li>Cleaning vinegar, for anything affected by limescale.</li>\n<li>Floor cleaner</li>\n<li>Hydroalcoholic gel</li>\n<li>70º alcohol (rubbing alcohol)</li>\n<li>Pearl hand soap</li>\n<li>Washing-up liquid, for the dining-room bottle</li>\n</ul>\n<h3 class=\"start-section-title\">Cleaning toilets</h3>\n<p>Products: cleaning vinegar, baking soda, alcohol and floor cleaner.</p>\n<div class=\"process-box\"><div class=\"setup-list\">\n<div class=\"setup-step\"><div class=\"setup-num\">1</div><div class=\"setup-step-body\"><p>Inside the bowl, use cleaning vinegar (a splash or spray) to loosen built-up grime and limescale. Let it sit for at least 10 minutes.</p></div></div>\n<div class=\"setup-step\"><div class=\"setup-num\">2</div><div class=\"setup-step-body\"><p>Then use baking soda to lift and scrub that grime with the toilet brush.</p></div></div>\n<div class=\"setup-step\"><div class=\"setup-num\">3</div><div class=\"setup-step-body\"><p>Rinse and disinfect both the inside and outside of the toilet thoroughly with the alcohol spray.</p></div></div>\n<div class=\"setup-step\"><div class=\"setup-num\">4</div><div class=\"setup-step-body\"><p>On the outside: clean with cleaning vinegar first, then disinfect every surface with alcohol as a final second pass.</p></div></div>\n<div class=\"setup-step\"><div class=\"setup-num\">5</div><div class=\"setup-step-body\"><p>Mirror and taps: vinegar spray and a cloth. Taps must be disinfected with alcohol spray.</p></div></div>\n<div class=\"setup-step\"><div class=\"setup-num\">6</div><div class=\"setup-step-body\"><p>Sweep and mop the floor with the floor cleaner.</p></div></div>\n</div></div>\n<h3 class=\"start-section-title\">Cleaning floors</h3>\n<p>It's important to sweep/vacuum AND mop the floors. Leave materials clean and put away.</p>\n<p>Use a splash of floor-cleaner concentrate (5l containers) per bucket of water (the concentrate already contains soap and a bit of bleach for disinfecting).</p>\n<h3 class=\"start-section-title\">Water-free surfaces</h3>\n<p>Use the hydroalcoholic gel dispensers, until this product runs out, for surfaces that could be damaged by other products. After that, alcohol will be used as the disinfectant instead.</p>"}}];
+const UI = {"tagline": {"es": "escola viva · Turnos de limpieza en familia", "ca": "escola viva · Torns de neteja en família", "en": "escola viva · Family cleaning shifts"}, "search": {"es": "Buscar en la guía…", "ca": "Cerca a la guia…", "en": "Search the guide…"}, "navHome": {"es": "Inicio", "ca": "Inici", "en": "Home"}, "navUpcoming": {"es": "Turnos próximos", "ca": "Torns propers", "en": "Upcoming shifts"}, "pageTitleHome": {"es": "Guía de Limpieza MOMO", "ca": "Guia de Neteja MOMO", "en": "MOMO Cleaning Guide"}, "crumbHome": {"es": "Inicio", "ca": "Inici", "en": "Home"}, "pageTitleUpcoming": {"es": "Turnos próximos", "ca": "Torns propers", "en": "Upcoming Shifts"}, "crumbUpcoming": {"es": "Turnos", "ca": "Torns", "en": "Shifts"}, "footer": {"es": "{shifts} turnos programados · {families} familias", "ca": "{shifts} torns programats · {families} famílies", "en": "{shifts} scheduled shifts · {families} families"}, "searchResultsFor": {"es": "Resultados de la búsqueda", "ca": "Resultats de la cerca", "en": "Search results"}, "searchResultsCount1": {"es": "resultado", "ca": "resultat", "en": "result"}, "searchResultsCountN": {"es": "resultados", "ca": "resultats", "en": "results"}, "searchNoResults": {"es": "No se han encontrado resultados.", "ca": "No s'han trobat resultats.", "en": "No results found."}, "calNoEvents": {"es": "Ningún turno coincide con los filtros seleccionados.", "ca": "Cap torn coincideix amb els filtres seleccionats.", "en": "No shifts match the selected filters."}, "calSelectAll": {"es": "Marcar todos", "ca": "Marca-ho tot", "en": "Select all"}, "calClearAll": {"es": "Desmarcar todos", "ca": "Desmarca-ho tot", "en": "Clear all"}, "calAddAllToCalendar": {"es": "Añadir turnos visibles al calendario", "ca": "Afegeix els torns visibles al calendari", "en": "Add shown shifts to calendar"}, "calAddToCalendar": {"es": "Añadir al calendario", "ca": "Afegeix al calendari", "en": "Add to calendar"}, "calAddShort": {"es": "Calendario", "ca": "Calendari", "en": "Calendar"}, "calAllEvents": {"es": "Todos los turnos", "ca": "Tots els torns", "en": "All shifts"}, "calMonthGridLabel": {"es": "Calendario del mes", "ca": "Calendari del mes", "en": "Monthly calendar"}, "calFamilyLabel": {"es": "Familias", "ca": "Famílies", "en": "Families"}, "calAddMine": {"es": "Añadir estos turnos al calendario", "ca": "Afegeix aquests torns al calendari", "en": "Add these shifts to calendar"}, "calendarIntro": {"es": "Consulta quién limpia cada espacio este mes. Toca un día para ver el detalle, o usa el botón de cada turno para añadirlo a tu calendario personal (Google, Outlook, Apple…).", "ca": "Consulta qui neteja cada espai aquest mes. Toca un dia per veure el detall, o fes servir el botó de cada torn per afegir-lo al teu calendari personal (Google, Outlook, Apple…).", "en": "See who cleans each space this month. Tap a day for the details, or use each shift's button to add it to your personal calendar (Google, Outlook, Apple…)."}, "upcomingIntro": {"es": "Los próximos turnos, para que nadie se los pierda.", "ca": "Els propers torns, perquè ningú se'ls perdi.", "en": "The next shifts coming up, so nobody misses theirs."}, "upcomingWeekTab": {"es": "Esta semana", "ca": "Aquesta setmana", "en": "This week"}, "upcomingMonthTab": {"es": "Este mes", "ca": "Aquest mes", "en": "This month"}, "upcomingNone": {"es": "No hay turnos programados en este periodo.", "ca": "No hi ha torns programats en aquest període.", "en": "No shifts scheduled in this period."}};
+const GROUP_LABELS = {"turnos": {"es": "Turnos", "ca": "Torns", "en": "Shifts"}, "guia": {"es": "Guía de limpieza", "ca": "Guia de neteja", "en": "Cleaning Guide"}};
+const GROUP_ORDER = ["turnos", "guia"];
+const HOME_PAGE = {"title": {"es": "Guía de Limpieza MOMO", "ca": "Guia de Neteja MOMO", "en": "MOMO Cleaning Guide"}, "body": {"es": "<p>Esta guía reúne toda la información sobre los turnos de limpieza de las familias en Momo escola viva: cómo se asignan, qué hay que hacer en cada espacio y qué productos usar.</p>\n<p>La limpieza de Momo la asumen las familias, tanto para poder descontar cuota como para cubrir la necesidad de limpieza sin externalizarla.</p>\n<h3 class=\"start-section-title\">Qué encontrarás aquí</h3>\n<ul class=\"quick-links\">\n<li>[[calendar|Calendario de turnos]] — quién limpia qué día, los turnos de esta semana y de este mes, y un botón para añadir cada uno a tu calendario</li>\n<li>[[criterios|Criterios de limpieza]] — cómo se asignan los turnos y qué hacer ante un cambio</li>\n<li>[[infantil|Limpieza Infantil]] — GIGI, CASIOPEA, BEPO, Mestrehores y Sala Polivalente</li>\n<li>[[primaria|Limpieza Primaria]] — PL.1, PL.2, PL.3 y Escaleras</li>\n<li>[[productos|Productos y procedimientos]] — qué producto usar en cada caso, y cómo</li>\n</ul>", "ca": "<p>Aquesta guia reuneix tota la informació sobre els torns de neteja de les famílies a Momo escola viva: com s'assignen, què cal fer a cada espai i quins productes fer servir.</p>\n<p>La neteja de Momo l'assumeixen les famílies, tant per poder descomptar quota com per cobrir la necessitat de neteja dels espais sense externalitzar-la.</p>\n<h3 class=\"start-section-title\">Què trobaràs aquí</h3>\n<ul class=\"quick-links\">\n<li>[[calendar|Calendari de torns]] — qui neteja cada dia, els torns d'aquesta setmana i d'aquest mes, i un botó per afegir cadascun al teu calendari</li>\n<li>[[criterios|Criteris de neteja]] — com s'assignen els torns i què fer davant d'un canvi</li>\n<li>[[infantil|Neteja Infantil]] — GIGI, CASIOPEA, BEPO, Mestrehores i Sala Polivalent</li>\n<li>[[primaria|Neteja Primària]] — PL.1, PL.2, PL.3 i Escales</li>\n<li>[[productos|Productes i procediments]] — quin producte fer servir en cada cas, i com</li>\n</ul>", "en": "<p>This guide brings together everything about MOMO's family cleaning shifts: how they're assigned, what needs doing in each space, and which products to use.</p>\n<p>Cleaning at Momo is taken on by the families themselves — both so families who need it can discount their fee, and to cover the school's cleaning needs without outsourcing it.</p>\n<h3 class=\"start-section-title\">What you'll find here</h3>\n<ul class=\"quick-links\">\n<li>[[calendar|Shift calendar]] — who cleans what on which day, this week's and this month's shifts, and a button to add each one to your calendar</li>\n<li>[[criterios|Cleaning criteria]] — how shifts are assigned and what to do about a swap</li>\n<li>[[infantil|Preschool cleaning]] — GIGI, CASIOPEA, BEPO, Mestrehores and the Multi-Purpose Room</li>\n<li>[[primaria|Primary cleaning]] — PL.1, PL.2, PL.3 and the Stairs</li>\n<li>[[productos|Products & procedures]] — which product to use for what, and how</li>\n</ul>"}};
+const SHIFTS = [{"date": "2026-09-07", "zone": "primaria", "family": "Patricia"}, {"date": "2026-09-07", "zone": "infantil", "family": "Sara (Leah)"}, {"date": "2026-09-08", "zone": "primaria", "family": "Patricia"}, {"date": "2026-09-08", "zone": "infantil", "family": "Sara (Leah)"}, {"date": "2026-09-09", "zone": "primaria", "family": "Patricia"}, {"date": "2026-09-09", "zone": "infantil", "family": "David (Bodhi)"}, {"date": "2026-09-09", "zone": "afondo", "family": "Patricia"}, {"date": "2026-09-10", "zone": "primaria", "family": "Patricia"}, {"date": "2026-09-10", "zone": "infantil", "family": "Myriam / Lorenzo (Nina)"}, {"date": "2026-09-11", "zone": "primaria", "family": "Ivette (Teo)"}, {"date": "2026-09-11", "zone": "infantil", "family": "Patricia"}, {"date": "2026-09-14", "zone": "primaria", "family": "Patricia"}, {"date": "2026-09-14", "zone": "infantil", "family": "Sara (Leah)"}, {"date": "2026-09-14", "zone": "afondo", "family": "Mireia/Alejandro (Leo)"}, {"date": "2026-09-15", "zone": "primaria", "family": "Patricia"}, {"date": "2026-09-15", "zone": "infantil", "family": "Sara (Leah)"}, {"date": "2026-09-16", "zone": "primaria", "family": "Patricia"}, {"date": "2026-09-16", "zone": "infantil", "family": "Destiny"}, {"date": "2026-09-16", "zone": "afondo", "family": "Patricia"}, {"date": "2026-09-17", "zone": "primaria", "family": "Patricia"}, {"date": "2026-09-17", "zone": "infantil", "family": "Laura (Jürgen)"}, {"date": "2026-09-18", "zone": "primaria", "family": "Patricia"}, {"date": "2026-09-18", "zone": "infantil", "family": "Melina (Claudio)"}, {"date": "2026-09-21", "zone": "primaria", "family": "Patricia"}, {"date": "2026-09-21", "zone": "infantil", "family": "Sara (Leah)"}, {"date": "2026-09-21", "zone": "afondo", "family": "Mireia/Alejandro (Leo)"}, {"date": "2026-09-22", "zone": "primaria", "family": "Patricia"}, {"date": "2026-09-22", "zone": "infantil", "family": "Sara (Leah)"}, {"date": "2026-09-23", "zone": "primaria", "family": "Patricia"}, {"date": "2026-09-23", "zone": "infantil", "family": "Destiny"}, {"date": "2026-09-23", "zone": "afondo", "family": "Patricia"}, {"date": "2026-09-24", "zone": "primaria", "family": "Patricia"}, {"date": "2026-09-24", "zone": "infantil", "family": "Sara (Leah)"}, {"date": "2026-09-25", "zone": "primaria", "family": "Patricia"}, {"date": "2026-09-25", "zone": "infantil", "family": "Nuria (Elaia)"}, {"date": "2026-09-28", "zone": "primaria", "family": "Patricia"}, {"date": "2026-09-28", "zone": "infantil", "family": "Sara (Leah)"}, {"date": "2026-09-29", "zone": "primaria", "family": "Patricia"}, {"date": "2026-09-29", "zone": "infantil", "family": "Mireia/Alejandro (Leo)"}, {"date": "2026-09-30", "zone": "primaria", "family": "Patricia"}, {"date": "2026-09-30", "zone": "infantil", "family": "Destiny"}, {"date": "2026-09-30", "zone": "afondo", "family": "Patricia"}];
+const CAL_CATEGORIES = [{"key": "primaria", "color": "#d99a4e", "label": {"es": "Primaria (P1, P2, P3 + 4 Baños + Escaleras)", "ca": "Primària (P1, P2, P3 + 4 Banys + Escales)", "en": "Primary (P1, P2, P3 + 4 Bathrooms + Stairs)"}}, {"key": "infantil", "color": "#4fb3bf", "label": {"es": "Infantil (GIGI, BEPO, CASIOPEA + espacios comunes)", "ca": "Infantil (GIGI, BEPO, CASIOPEA + espais comuns)", "en": "Preschool (GIGI, BEPO, CASIOPEA + shared spaces)"}}, {"key": "afondo", "color": "#7fa87f", "label": {"es": "Limpieza a fondo semanal / Exteriores", "ca": "Neteja a fons setmanal / Exteriors", "en": "Weekly deep clean / Outdoor areas"}}];
+const FAMILY_COLORS = {"Patricia": "#d99a4e", "Sara (Leah)": "#4fb3bf", "Destiny": "#b6534f", "Mireia/Alejandro (Leo)": "#6aa84f", "Ivette (Teo)": "#d9b23e", "David (Bodhi)": "#d98fb0", "Myriam / Lorenzo (Nina)": "#b98fd9", "Laura (Jürgen)": "#e0a0c0", "Melina (Claudio)": "#c98fc2", "Nuria (Elaia)": "#d68fa8"};
+
+const LANGS = ["es","ca","en"];
+let currentLang = "es";
+let currentPage = "home";
+
+const byId = Object.fromEntries(PAGES.map(p => [p.id, p]));
+
+function t(key){ return (UI[key] && UI[key][currentLang]) || (UI[key] && UI[key].es) || ""; }
+
+function xlink(id, label){
+  return '<a href="#" class="xlink" data-goto="' + id + '">' + label + '</a>';
+}
+
+function renderLinks(html){
+  return html.replace(/\[\[([a-z\-]+)\|([^\]]+)\]\]/g, (m, id, label) => xlink(id, label));
+}
+
+function stripHtml(html){
+  return html
+    .replace(/\[\[[a-z\-]+\|([^\]]+)\]\]/g, "$1")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&nbsp;/g, " ")
+    .replace(/\s+/g, " ").trim();
+}
+
+function escapeRegExp(s){ return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
+
+function buildSnippet(text, q, radius){
+  const lower = text.toLowerCase();
+  const idx = lower.indexOf(q);
+  if(idx === -1) return null;
+  const start = Math.max(0, idx - radius);
+  const end = Math.min(text.length, idx + q.length + radius);
+  let excerpt = text.slice(start, end);
+  if(start > 0) excerpt = "…" + excerpt;
+  if(end < text.length) excerpt = excerpt + "…";
+  excerpt = excerpt.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  const reEsc = new RegExp(escapeRegExp(q.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")), "ig");
+  excerpt = excerpt.replace(reEsc, m => "<mark>" + m + "</mark>");
+  return excerpt;
+}
+
+/* ============ Sidebar ============ */
+function buildSidebar(){
+  const sidebar = document.getElementById("sidebar");
+  sidebar.innerHTML = "";
+
+  const home = document.createElement("div");
+  home.className = "nav-home";
+  home.id = "nav-home";
+  home.textContent = t("navHome");
+  home.onclick = () => showPage("home");
+  sidebar.appendChild(home);
+
+  GROUP_ORDER.forEach(groupKey => {
+    const label = document.createElement("div");
+    label.className = "group-label";
+    label.textContent = GROUP_LABELS[groupKey][currentLang];
+    sidebar.appendChild(label);
+
+    const itemsWrap = document.createElement("div");
+    itemsWrap.dataset.group = groupKey;
+    PAGES.filter(p => p.group === groupKey).forEach(p => {
+      const item = document.createElement("div");
+      item.className = "nav-item";
+      item.id = "nav-" + p.id;
+      item.textContent = p.title[currentLang];
+      item.onclick = () => showPage(p.id);
+      itemsWrap.appendChild(item);
+    });
+    sidebar.appendChild(itemsWrap);
+  });
+
+  let activeNavId = "nav-" + currentPage;
+  if(currentPage === "home") activeNavId = "nav-home";
+  const active = document.getElementById(activeNavId);
+  if(active) active.classList.add("active");
+}
+
+/* ============ Search ============ */
+let lastPageBeforeSearch = "home";
+
+function runSearch(){
+  const raw = document.getElementById("search").value.trim();
+  const q = raw.toLowerCase();
+  const content = document.getElementById("content");
+
+  if(!q){
+    showPage(lastPageBeforeSearch);
+    return;
+  }
+  if(document.getElementById("nav-" + currentPage) || currentPage === "home"){
+    lastPageBeforeSearch = currentPage;
+  }
+
+  const results = [];
+  PAGES.forEach(p => {
+    const title = p.title[currentLang];
+    const plainBody = stripHtml(p.body[currentLang]);
+    const titleMatch = title.toLowerCase().includes(q);
+    const snippet = buildSnippet(plainBody, q, 70);
+    if(titleMatch || snippet){
+      let fallback = plainBody.slice(0, 140).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      if(plainBody.length > 140) fallback += "…";
+      results.push({ id: p.id, group: p.group, title, snippet: snippet || fallback });
+    }
+  });
+  {
+    const title = t("pageTitleHome");
+    const plainBody = stripHtml(HOME_PAGE.body[currentLang]);
+    const titleMatch = title.toLowerCase().includes(q);
+    const snippet = buildSnippet(plainBody, q, 70);
+    if(titleMatch || snippet){
+      let fallback = plainBody.slice(0, 140).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      if(plainBody.length > 140) fallback += "…";
+      results.push({ id: "home", group: null, title, snippet: snippet || fallback });
+    }
+  }
+
+  const countLabel = results.length === 1 ? t("searchResultsCount1") : t("searchResultsCountN");
+  const escapedRaw = raw.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+  const listHtml = results.length
+    ? results.map(r =>
+        '<div class="search-result-item" data-goto="' + r.id + '">' +
+          '<div class="sr-crumb">' + (r.group ? GROUP_LABELS[r.group][currentLang] : t("crumbHome")) + '</div>' +
+          '<div class="sr-title">' + r.title + '</div>' +
+          '<div class="sr-snippet">' + r.snippet + '</div>' +
+        '</div>'
+      ).join("")
+    : '<div class="empty-note">' + t("searchNoResults") + '</div>';
+
+  content.innerHTML =
+    '<div class="crumb">' + t("searchResultsFor") + '</div>' +
+    '<h1 class="page-title">“' + escapedRaw + '” <span class="sr-count">(' + results.length + ' ' + countLabel + ')</span></h1>' +
+    '<div class="search-results">' + listHtml + '</div>';
+
+  content.scrollTop = 0; window.scrollTo(0,0);
+  const active = document.querySelector(".nav-item.active, .nav-home.active");
+  if(active) active.classList.remove("active");
+}
+
+document.getElementById("content").addEventListener("click", (e) => {
+  const r = e.target.closest(".search-result-item");
+  if(r){
+    e.preventDefault();
+    document.getElementById("search").value = "";
+    showPage(r.dataset.goto);
+  }
+});
+
+/* ============ Pages ============ */
+function homePageHtml(){
+  return '<div class="crumb">' + t("crumbHome") + '</div>' +
+    '<h1 class="page-title">' + t("pageTitleHome") + '</h1>' +
+    '<div class="page-body">' + renderLinks(HOME_PAGE.body[currentLang]) + '</div>';
+}
+
+function showPage(id){
+  currentPage = id;
+  const content = document.getElementById("content");
+
+  if(id === "home"){
+    content.innerHTML = homePageHtml();
+    buildSidebar();
+    content.scrollTop = 0; window.scrollTo(0,0);
+    return;
+  }
+  const page = byId[id];
+  if(!page) return;
+  const bodyHtml = renderLinks(page.body[currentLang]);
+  content.innerHTML =
+    '<div class="crumb">' + GROUP_LABELS[page.group][currentLang] + '</div>' +
+    '<h1 class="page-title">' + page.title[currentLang] + '</h1>' +
+    '<div class="page-body">' + bodyHtml + '</div>';
+
+  if(id === "calendar") renderCalendarPage();
+  buildSidebar();
+  content.scrollTop = 0; window.scrollTo(0,0);
+}
+
+document.getElementById("brandHome").addEventListener("click", () => showPage("home"));
+
+document.getElementById("langSelect").addEventListener("change", (e) => {
+  currentLang = e.target.value;
+  document.getElementById("tagline").textContent = UI.tagline[currentLang];
+  document.getElementById("guideWord").textContent = guideWordFor(currentLang);
+  document.getElementById("search").placeholder = t("search");
+  buildStats();
+  if(document.getElementById("search").value.trim()) runSearch();
+  else showPage(currentPage);
+});
+
+function guideWordFor(lang){
+  return { es: "Guía de Limpieza", ca: "Guia de Neteja", en: "Cleaning Guide" }[lang] || "Cleaning Guide";
+}
+
+function buildStats(){
+  const families = new Set(SHIFTS.map(s => s.family));
+  document.getElementById("stats").textContent =
+    t("footer").replace("{shifts}", SHIFTS.length).replace("{families}", families.size);
+}
+
+/* Inline links + stage tabs */
+document.getElementById("content").addEventListener("click", (e) => {
+  const tabBtn = e.target.closest(".stage-tab-btn");
+  if(tabBtn){
+    const stage = tabBtn.dataset.stage;
+    const tabs = tabBtn.closest(".stage-tabs");
+    tabs.querySelectorAll(".stage-tab-btn").forEach(b => b.classList.toggle("active", b === tabBtn));
+    const wrap = tabs.parentElement;
+    wrap.querySelectorAll(":scope > .stage-panel").forEach(panel => {
+      panel.style.display = (panel.dataset.stagePanel === stage) ? "" : "none";
+    });
+    return;
+  }
+  const a = e.target.closest(".xlink");
+  if(a){
+    e.preventDefault();
+    showPage(a.dataset.goto);
+  }
+});
+
+/* Mobile sidebar drawer */
+(function(){
+  const appEl = document.querySelector(".app");
+  const menuToggle = document.getElementById("menuToggle");
+  const backdrop = document.getElementById("sidebarBackdrop");
+  const sidebarEl = document.getElementById("sidebar");
+  function closeDrawer(){ appEl.classList.remove("sidebar-open"); }
+  function openDrawer(){ appEl.classList.add("sidebar-open"); }
+  if(menuToggle) menuToggle.addEventListener("click", () => {
+    appEl.classList.contains("sidebar-open") ? closeDrawer() : openDrawer();
+  });
+  if(backdrop) backdrop.addEventListener("click", closeDrawer);
+  if(sidebarEl) sidebarEl.addEventListener("click", () => { if(window.innerWidth <= 760) closeDrawer(); });
+})();
+
+/* ============ Calendar engine ============ */
+function calCategoryByKey(key){ return CAL_CATEGORIES.find(c => c.key === key); }
+function calFamilyColor(fam){ return FAMILY_COLORS[fam] || "#a0b04e"; }
+
+function buildCalEvents(){
+  return SHIFTS.map(s => {
+    const cat = calCategoryByKey(s.zone);
+    const title = {};
+    LANGS.forEach(l => { title[l] = s.family + " — " + (cat.label[l] || cat.label.es); });
+    return { id: s.zone + "_" + s.date, category: s.zone, family: s.family, title, start: s.date };
+  });
+}
+const CAL_EVENTS = buildCalEvents();
+
+const USE_ICS_DOWNLOAD = true;
+
+// Patricia covers almost every weekday, so by default her shifts are
+// hidden from the color-coded calendar grid (she'd otherwise paint the
+// whole month orange and bury everyone else) — she's still one click away
+// via her chip, and always shows up in the "Turnos próximos" list above.
+const CAL_DEFAULT_HIDDEN_FAMILIES = ["Patricia"];
+let CAL_ACTIVE_FAMILIES = null; // set on first render to "all except default-hidden"
+let CAL_DAY_INDEX = {};
+
+function calAllFamilies(){
+  return Array.from(new Set(CAL_EVENTS.map(e => e.family))).sort((a,b) => a.localeCompare(currentLang === "en" ? "en" : "es"));
+}
+function calDefaultActiveFamilies(){
+  const hidden = new Set(CAL_DEFAULT_HIDDEN_FAMILIES);
+  return new Set(calAllFamilies().filter(fam => !hidden.has(fam)));
+}
+function calIsActive(fam){
+  if(!CAL_ACTIVE_FAMILIES) CAL_ACTIVE_FAMILIES = calDefaultActiveFamilies();
+  return CAL_ACTIVE_FAMILIES.has(fam);
+}
+
+function calToggleFamily(fam){
+  if(!CAL_ACTIVE_FAMILIES) CAL_ACTIVE_FAMILIES = calDefaultActiveFamilies();
+  if(CAL_ACTIVE_FAMILIES.has(fam)) CAL_ACTIVE_FAMILIES.delete(fam);
+  else CAL_ACTIVE_FAMILIES.add(fam);
+  renderCalendarPage();
+}
+function calSetAll(on){
+  CAL_ACTIVE_FAMILIES = on ? new Set(calAllFamilies()) : new Set();
+  renderCalendarPage();
+}
+
+function calLocale(lang){ return {es:"es-ES", ca:"ca-ES", en:"en-GB"}[lang] || "es-ES"; }
+function calParseDate(s){ const [y,m,d] = s.split("-").map(Number); return new Date(y, m-1, d); }
+function calFormatSingleDate(dateStr, lang){
+  return calParseDate(dateStr).toLocaleDateString(calLocale(lang), {day:"numeric", month:"long", year:"numeric"});
+}
+function calMonthKey(dateStr){ return dateStr.slice(0,7); }
+function calMonthLabel(monthKey, lang){
+  const [y,m] = monthKey.split("-").map(Number);
+  const label = new Date(y, m-1, 1).toLocaleDateString(calLocale(lang), {month:"long", year:"numeric"});
+  return label.charAt(0).toUpperCase() + label.slice(1);
+}
+
+/* ---- ICS ---- */
+function icsEscape(text){ return String(text).replace(/\\/g,"\\\\").replace(/;/g,"\\;").replace(/,/g,"\\,").replace(/\n/g,"\\n"); }
+function icsDate(dateStr){ return dateStr.replace(/-/g, ""); }
+function icsAddDays(dateStr, n){
+  const d = calParseDate(dateStr);
+  d.setDate(d.getDate() + n);
+  return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0");
+}
+function icsTimeStamp(){ return new Date().toISOString().replace(/[-:]/g,"").split(".")[0] + "Z"; }
+
+function icsEventBlock(ev, lang){
+  const title = icsEscape(ev.title[lang] || ev.title.es);
+  const uid = ev.id + "@momo-cleaning-guide";
+  const lines = ["BEGIN:VEVENT", "UID:" + uid, "DTSTAMP:" + icsTimeStamp()];
+  lines.push("DTSTART;VALUE=DATE:" + icsDate(ev.start));
+  lines.push("DTEND;VALUE=DATE:" + icsDate(icsAddDays(ev.start, 1)));
+  lines.push("SUMMARY:" + title);
+  lines.push("END:VEVENT");
+  return lines.join("\r\n");
+}
+function buildICS(events, lang){
+  const header = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//MOMO Cleaning Guide//Calendar//" + lang.toUpperCase(), "CALSCALE:GREGORIAN"];
+  return header.concat(events.map(ev => icsEventBlock(ev, lang))).concat(["END:VCALENDAR"]).join("\r\n");
+}
+function downloadICS(icsText, filename){
+  const blob = new Blob([icsText], {type: "text/calendar;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+function calGoogleLink(ev){
+  const start = icsDate(ev.start);
+  const end = icsDate(icsAddDays(ev.start, 1));
+  const title = encodeURIComponent(ev.title[currentLang] || ev.title.es);
+  return "https://calendar.google.com/calendar/render?action=TEMPLATE&text=" + title + "&dates=" + start + "/" + end;
+}
+function calAddSingleEvent(evId){
+  const ev = CAL_EVENTS.find(e => e.id === evId);
+  if(!ev) return;
+  if(USE_ICS_DOWNLOAD){
+    downloadICS(buildICS([ev], currentLang), ev.id + ".ics");
+  } else {
+    window.open(calGoogleLink(ev), "_blank", "noopener");
+  }
+}
+function calVisibleEvents(){
+  return CAL_EVENTS.filter(e => calIsActive(e.family));
+}
+function calActiveFamilyList(){
+  if(!CAL_ACTIVE_FAMILIES) CAL_ACTIVE_FAMILIES = calDefaultActiveFamilies();
+  return Array.from(CAL_ACTIVE_FAMILIES);
+}
+function calAddAllFiltered(){
+  if(!USE_ICS_DOWNLOAD) return;
+  const visible = calVisibleEvents();
+  if(!visible.length) return;
+  const active = calActiveFamilyList();
+  const name = active.length === 1 ? active[0].replace(/[^\w]+/g, "-").toLowerCase() : "momo-limpieza";
+  downloadICS(buildICS(visible, currentLang), name + ".ics");
+}
+
+function calPad2(n){ return String(n).padStart(2,"0"); }
+function calMonthMatrix(year, monthIndex0){
+  const firstDay = new Date(year, monthIndex0, 1);
+  const daysInMonth = new Date(year, monthIndex0+1, 0).getDate();
+  let startWeekday = (firstDay.getDay() + 6) % 7; // 0=Mon
+  const cells = [];
+  for(let i=0;i<startWeekday;i++) cells.push(null);
+  for(let d=1; d<=daysInMonth; d++) cells.push(d);
+  while(cells.length % 7 !== 0) cells.push(null);
+  const weeks = [];
+  for(let i=0;i<cells.length;i+=7) weeks.push(cells.slice(i,i+7));
+  return weeks;
+}
+
+function calRegisterDayEvent(dateStr, evId){
+  if(!CAL_DAY_INDEX[dateStr]) CAL_DAY_INDEX[dateStr] = [];
+  if(!CAL_DAY_INDEX[dateStr].includes(evId)) CAL_DAY_INDEX[dateStr].push(evId);
+}
+
+function calBuildDayColorMap(year, monthIndex0){
+  const map = {};
+  const daysInMonth = new Date(year, monthIndex0+1, 0).getDate();
+  const monthStart = new Date(year, monthIndex0, 1);
+  const monthEnd = new Date(year, monthIndex0, daysInMonth);
+
+  CAL_EVENTS.forEach(ev => {
+    if(!calIsActive(ev.family)) return;
+    const s = calParseDate(ev.start);
+    if(s < monthStart || s > monthEnd) return;
+    const d = s.getDate();
+    if(!map[d]) map[d] = [];
+    map[d].push({color: calFamilyColor(ev.family), id: ev.id, family: ev.family});
+    calRegisterDayEvent(ev.start, ev.id);
+  });
+  return map;
+}
+
+function calWeekdayLabels(lang){
+  const labels = [];
+  for(let i=0;i<7;i++){
+    const d = new Date(2024, 0, 1+i); // Monday
+    labels.push(d.toLocaleDateString(calLocale(lang), {weekday:"short"}).slice(0,2));
+  }
+  return labels;
+}
+
+function calBuildMonthGrid(year, monthIndex0, lang){
+  const monthName = calMonthLabel(year + "-" + calPad2(monthIndex0+1), lang);
+  const weekdayLabels = calWeekdayLabels(lang);
+  const matrix = calMonthMatrix(year, monthIndex0);
+  const colorMap = calBuildDayColorMap(year, monthIndex0);
+
+  const headRow = '<tr>' + weekdayLabels.map(w => '<th>' + w + '</th>').join("") + '</tr>';
+  const bodyRows = matrix.map(week =>
+    '<tr>' + week.map(day => {
+      if(day === null) return '<td></td>';
+      const info = colorMap[day];
+      if(info && info.length){
+        const dateStr = year + "-" + calPad2(monthIndex0+1) + "-" + calPad2(day);
+        const multiClass = info.length > 1 ? " cal-day-multi" : "";
+        return '<td class="cal-day-filled' + multiClass + '" style="--day-color:' + info[0].color + '" data-date="' + dateStr + '">' + day + '</td>';
+      }
+      return '<td>' + day + '</td>';
+    }).join("") + '</tr>'
+  ).join("");
+
+  return '<div class="cal-month">' +
+    '<div class="cal-month-head">' + monthName + '</div>' +
+    '<table class="cal-month-table"><thead>' + headRow + '</thead><tbody>' + bodyRows + '</tbody></table>' +
+    '</div>';
+}
+
+function calMonthsPresent(){
+  const set = new Set(CAL_EVENTS.map(e => calMonthKey(e.start)));
+  return Array.from(set).sort();
+}
+
+function calBuildGrid(lang){
+  CAL_DAY_INDEX = {};
+  const months = calMonthsPresent().map(mk => {
+    const [y,m] = mk.split("-").map(Number);
+    return calBuildMonthGrid(y, m-1, lang);
+  });
+  return '<div class="cal-grid">' + months.join("") + '</div>';
+}
+
+function renderCalendarPage(){
+  const mount = document.getElementById("calendar-mount");
+  if(!mount) return;
+  if(!CAL_ACTIVE_FAMILIES) CAL_ACTIVE_FAMILIES = calDefaultActiveFamilies();
+
+  const chips = calAllFamilies().map(fam => {
+    const active = calIsActive(fam);
+    const color = calFamilyColor(fam);
+    return '<button type="button" class="cal-chip' + (active ? ' active' : '') + '" data-fam="' + fam.replace(/"/g,"&quot;") + '" style="--chip-color:' + color + '">' +
+      '<span class="cal-chip-dot"></span>' + fam + '</button>';
+  }).join("");
+
+  const visible = calVisibleEvents().sort((a,b) => a.start.localeCompare(b.start));
+  const monthGroups = [];
+  let lastMonth = null, bucket = null;
+  visible.forEach(ev => {
+    const mk = calMonthKey(ev.start);
+    if(mk !== lastMonth){ bucket = {month: mk, events: []}; monthGroups.push(bucket); lastMonth = mk; }
+    bucket.events.push(ev);
+  });
+  const listHtml = monthGroups.map(g =>
+    '<div class="cal-section-label">' + calMonthLabel(g.month, currentLang) + '</div>' +
+    '<div class="cal-list">' + g.events.map(ev => calEventCard(ev)).join("") + '</div>'
+  ).join("");
+  const emptyHtml = !visible.length ? '<p class="empty-note">' + t("calNoEvents") + '</p>' : "";
+
+  const activeCount = calActiveFamilyList().length;
+  const addBtnLabel = activeCount === 1 ? t("calAddMine") : t("calAddAllToCalendar");
+  const bulkBtnHtml = USE_ICS_DOWNLOAD
+    ? '<button type="button" class="cal-btn-primary" id="calAddAll">' + addBtnLabel + '</button>'
+    : '';
+
+  // Hidden for now (set to true to bring the "upcoming shifts" tabs back
+  // above the month grid) — the markup below is kept intact either way.
+  const SHOW_UPCOMING_SECTION = false;
+  const upcomingSection = !SHOW_UPCOMING_SECTION ? "" :
+    '<div class="cal-section-label">' + t("pageTitleUpcoming") + '</div>' +
+    '<div class="stage-tabs">' +
+      '<button type="button" class="stage-tab-btn active" data-stage="week">' + t("upcomingWeekTab") + '</button>' +
+      '<button type="button" class="stage-tab-btn" data-stage="month">' + t("upcomingMonthTab") + '</button>' +
+    '</div>' +
+    '<div class="stage-panel" data-stage-panel="week">' + upcomingListHtml("week") + '</div>' +
+    '<div class="stage-panel" data-stage-panel="month" style="display:none;">' + upcomingListHtml("month") + '</div>';
+
+  mount.innerHTML =
+    upcomingSection +
+    '<div class="cal-section-label">' + t("calMonthGridLabel") + '</div>' +
+    '<div class="cal-toolbar">' +
+      '<div class="cal-chips">' + chips + '</div>' +
+      '<div class="cal-toolbar-actions">' +
+        '<button type="button" class="cal-btn-text" id="calSelectAll">' + t("calSelectAll") + '</button>' +
+        '<button type="button" class="cal-btn-text" id="calClearAll">' + t("calClearAll") + '</button>' +
+        bulkBtnHtml +
+      '</div>' +
+    '</div>' +
+    calBuildGrid(currentLang) +
+    '<div class="cal-section-label">' + t("calAllEvents") + '</div>' +
+    listHtml + emptyHtml;
+
+  mount.querySelectorAll(".cal-chip").forEach(btn => btn.addEventListener("click", () => calToggleFamily(btn.dataset.fam)));
+  document.getElementById("calSelectAll").addEventListener("click", () => calSetAll(true));
+  document.getElementById("calClearAll").addEventListener("click", () => calSetAll(false));
+  if(USE_ICS_DOWNLOAD) document.getElementById("calAddAll").addEventListener("click", calAddAllFiltered);
+}
+
+function calEventCard(ev, dateLabelOverride){
+  const title = ev.title[currentLang] || ev.title.es;
+  const dateLabel = dateLabelOverride || calFormatSingleDate(ev.start, currentLang);
+  return '<div class="cal-card" style="--chip-color:' + calFamilyColor(ev.family) + '">' +
+    '<span class="cal-card-dot"></span>' +
+    '<div class="cal-card-body">' +
+      '<div class="cal-card-title">' + title + '</div>' +
+      '<div class="cal-card-date">' + dateLabel + '</div>' +
+    '</div>' +
+    '<button type="button" class="cal-add-btn" data-ev="' + ev.id + '" title="' + t("calAddToCalendar") + '">+ ' + t("calAddShort") + '</button>' +
+  '</div>';
+}
+
+function calDateStr(d){ return d.getFullYear() + "-" + calPad2(d.getMonth()+1) + "-" + calPad2(d.getDate()); }
+
+function calEventsInRange(rangeStart, rangeEnd){
+  const results = [];
+  CAL_EVENTS.forEach(ev => {
+    const s = calParseDate(ev.start);
+    if(s >= rangeStart && s <= rangeEnd) results.push({ev, date: ev.start});
+  });
+  results.sort((a,b) => a.date.localeCompare(b.date) || a.ev.id.localeCompare(b.ev.id));
+  return results;
+}
+
+function calRangeForKind(kind){
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  if(kind === "week"){
+    const end = new Date(today); end.setDate(end.getDate() + 6);
+    return {start: today, end};
+  }
+  const end = new Date(today.getFullYear(), today.getMonth()+1, 0);
+  return {start: today, end};
+}
+
+function upcomingListHtml(kind){
+  const {start, end} = calRangeForKind(kind);
+  const items = calEventsInRange(start, end);
+  if(!items.length) return '<p class="empty-note">' + t("upcomingNone") + '</p>';
+  return '<div class="cal-list">' + items.map(it => calEventCard(it.ev)).join("") + '</div>';
+}
+
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest(".cal-add-btn");
+  if(btn) calAddSingleEvent(btn.dataset.ev);
+});
+
+function calHideDayPopover(){
+  const existing = document.getElementById("calDayPopover");
+  if(existing) existing.remove();
+}
+function calShowDayPopover(dateStr, cell){
+  calHideDayPopover();
+  const ids = CAL_DAY_INDEX[dateStr] || [];
+  if(!ids.length) return;
+  const items = ids.map(id => {
+    const ev = CAL_EVENTS.find(e => e.id === id);
+    if(!ev) return "";
+    const cat = calCategoryByKey(ev.category);
+    const zoneLabel = cat.label[currentLang] || cat.label.es;
+    return '<div class="cal-day-popover-item"><span class="cal-day-popover-dot" style="background:' + calFamilyColor(ev.family) + '"></span>' +
+      '<div><div class="cal-day-popover-title">' + ev.family + '</div><div class="cal-day-popover-family">' + zoneLabel + '</div></div></div>';
+  }).join("");
+  const d = calParseDate(dateStr);
+  const dateLabel = d.toLocaleDateString(calLocale(currentLang), {weekday:"long", day:"numeric", month:"long", year:"numeric"});
+  const pop = document.createElement("div");
+  pop.className = "cal-day-popover";
+  pop.id = "calDayPopover";
+  pop.innerHTML = '<button type="button" class="cal-day-popover-close" aria-label="Close">✕</button>' +
+    '<div class="cal-day-popover-date">' + dateLabel + '</div>' + items;
+  document.body.appendChild(pop);
+  const rect = cell.getBoundingClientRect();
+  const popRect = pop.getBoundingClientRect();
+  let left = rect.left + rect.width/2 - popRect.width/2;
+  left = Math.max(8, Math.min(left, window.innerWidth - popRect.width - 8));
+  let top = rect.bottom + 8;
+  if(top + popRect.height > window.innerHeight - 8) top = rect.top - popRect.height - 8;
+  pop.style.left = left + "px"; pop.style.top = top + "px";
+  pop.querySelector(".cal-day-popover-close").addEventListener("click", (e) => { e.stopPropagation(); calHideDayPopover(); });
+}
+document.addEventListener("click", (e) => {
+  const cell = e.target.closest(".cal-day-filled");
+  if(cell){ e.stopPropagation(); calShowDayPopover(cell.dataset.date, cell); return; }
+  if(!e.target.closest(".cal-day-popover")) calHideDayPopover();
+});
+document.addEventListener("keydown", (e) => { if(e.key === "Escape") calHideDayPopover(); });
+window.addEventListener("scroll", calHideDayPopover, true);
+
+/* ============ Boot ============ */
+document.getElementById("search").placeholder = t("search");
+document.getElementById("tagline").textContent = UI.tagline[currentLang];
+document.getElementById("guideWord").textContent = guideWordFor(currentLang);
+buildSidebar();
+buildStats();
+showPage("home");
+
+</script>
+</body>
+</html>
