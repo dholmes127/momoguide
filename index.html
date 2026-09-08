@@ -332,6 +332,42 @@
     content:""; position:absolute; top:3px; right:4px; width:5px; height:5px;
     border-radius:50%; background:#fff; opacity:.9;
   }
+  .entry-notice-overlay{
+    position:fixed; inset:0; z-index:200; background:rgba(20,15,10,.55);
+    display:flex; align-items:center; justify-content:center; padding:20px;
+  }
+  .entry-notice-card{
+    background:#fff; border-radius:14px; max-width:480px; width:100%;
+    padding:28px 26px 24px; box-shadow:0 20px 60px rgba(0,0,0,.3);
+    max-height:85vh; overflow-y:auto;
+  }
+  .entry-notice-title{
+    font-family:var(--font-heading); font-size:19px; font-weight:700; color:var(--gold-dark);
+    margin:0 0 14px;
+  }
+  .entry-notice-body p{font-size:14.5px; line-height:1.6; margin:0 0 12px; color:var(--text);}
+  .entry-notice-signature{font-size:13.5px; color:var(--muted); margin-top:4px;}
+  .entry-notice-btn{
+    display:block; width:100%; margin-top:18px; background:var(--gold); color:#fff; border:none;
+    border-radius:10px; padding:12px 18px; font-family:var(--font-body); font-weight:700; font-size:15px;
+    cursor:pointer; text-align:center;
+  }
+  .entry-notice-btn:hover{background:var(--gold-dark);}
+  .entry-notice-langs{
+    display:flex; flex-wrap:wrap; gap:6px; margin:0 0 16px;
+  }
+  .entry-notice-lang-btn{
+    border:1px solid var(--border); background:#fff; color:var(--muted);
+    border-radius:14px; padding:4px 11px; font-size:12.5px; font-weight:700;
+    font-family:var(--font-body); cursor:pointer;
+  }
+  .entry-notice-lang-btn.active{
+    border-color:var(--gold); color:var(--gold-dark); background:color-mix(in srgb, var(--gold) 12%, #fff);
+  }
+  @media (max-width:600px){
+    .entry-notice-card{padding:22px 18px 20px;}
+  }
+
   .cal-day-popover{
     position:fixed; z-index:80; background:#fff; border:1px solid var(--border); border-radius:12px;
     box-shadow:0 10px 30px rgba(0,0,0,.18); padding:14px 16px 10px; width:260px; max-width:calc(100vw - 24px);
@@ -511,7 +547,7 @@
     <div class="header-right">
       <select id="langSelect">
         <option value="en">EN — English</option>
-        <option value="es">ES — Español</option>
+        <option value="es" selected>ES — Español</option>
         <option value="ca">CA — Català</option>
         <option value="fr">FR — Français</option>
         <option value="de">DE — Deutsch</option>
@@ -585,7 +621,7 @@ function startDateBadge(dateStr){
     '<span class="sdb-date">' + calFormatSingleDate(dateStr, currentLang) + '</span></p>';
 }
 
-let currentLang = "en";
+let currentLang = "es";
 let currentPage = "start";
 const collapsedGroups = new Set(["indepth"]); // In-Depth guide starts collapsed
 
@@ -1127,14 +1163,135 @@ document.getElementById("content").addEventListener("change", (e) => {
 
 document.getElementById("brandHome").addEventListener("click", () => showPage("start"));
 
-document.getElementById("langSelect").addEventListener("change", (e) => {
-  currentLang = e.target.value;
+// Shared language-switch logic, used by both the header dropdown and the
+// entry notice's own inline language picker (so people can change language
+// before they've even dismissed the notice, without needing to read it first).
+function applyLanguage(lang){
+  currentLang = lang;
+  const sel = document.getElementById("langSelect");
+  if(sel) sel.value = lang;
   document.getElementById("tagline").textContent = UI[currentLang].tagline;
   document.getElementById("search").placeholder = UI[currentLang].search;
   buildStats();
   if(document.getElementById("search").value.trim()) runSearch();
   else showPage(currentPage);
+  renderEntryNotice();
+}
+
+document.getElementById("langSelect").addEventListener("change", (e) => {
+  applyLanguage(e.target.value);
 });
+
+// ---- Entry notice: a one-off dismissible announcement shown before the guide.
+// To post a new notice, update ENTRY_NOTICE below (bump the id) and set a new expiresAt.
+// After expiresAt, the notice stops appearing for everyone automatically, no cleanup needed.
+const ENTRY_NOTICE = {
+  id: "inuncat-2026-09-09",
+  expiresAt: "2026-09-10", // notice stops showing at/after this date (local time)
+  title: {
+    en: "Important notice",
+    es: "Aviso importante",
+    ca: "Avís important",
+    fr: "Avis important",
+    de: "Wichtiger Hinweis"
+  },
+  body: {
+    en: [
+      "Good afternoon families,",
+      "We have been notified that Catalonia's Special Emergency Plan for Flooding (INUNCAT) has been activated. As a result, classes at school will be suspended tomorrow, Wednesday, September 9th.",
+      "This measure affects schools in the comarques (counties) included in the resolution, among them Baix Llobregat, and is intended to ensure the safety of students and the whole school community given the weather conditions forecast.",
+      "Therefore, the school will remain closed tomorrow, with no classes held.",
+      "Please let me know if you have any questions."
+    ],
+    es: [
+      "Buenas tardes familias,",
+      "Hemos recibido notificación de que se ha activado el Plan especial de emergencias por inundaciones de Cataluña (INUNCAT). Mañana, miércoles 9 de septiembre, quedan suspendidas las clases en la escuela.",
+      "Esta medida afecta a los centros educativos de las comarcas incluidas en la resolución, entre las que se encuentra el Baix Llobregat, y tiene como objetivo garantizar la seguridad del alumnado y de toda la comunidad educativa ante la situación meteorológica prevista.",
+      "Por tanto, mañana la escuela permanecerá cerrada y no habrá actividad lectiva.",
+      "Cualquier cosa me decís."
+    ],
+    ca: [
+      "Bona tarda famílies,",
+      "Hem rebut notificació de que s'ha activat el Pla especial d'emergències per inundacions de Catalunya (INUNCAT). Demà, dimecres 9 de setembre, queden suspeses les classes a l'escola.",
+      "Aquesta mesura afecta els centres educatius de les comarques incloses en la resolució, entre les quals es troba el Baix Llobregat, i té com a objectiu garantir la seguretat de l'alumnat i de tota la comunitat educativa davant la situació meteorològica prevista.",
+      "Per tant, demà l'escola romandrà tancada i no hi haurà activitat lectiva.",
+      "Qualsevol cosa em dieu."
+    ],
+    fr: [
+      "Bonjour à toutes les familles,",
+      "Nous avons été informés de l'activation du Plan spécial d'urgence pour inondations de Catalogne (INUNCAT). En conséquence, les cours seront suspendus à l'école demain, mercredi 9 septembre.",
+      "Cette mesure concerne les établissements scolaires des comarques incluses dans la résolution, parmi lesquelles se trouve le Baix Llobregat, et vise à garantir la sécurité des élèves et de toute la communauté éducative face aux conditions météorologiques prévues.",
+      "L'école restera donc fermée demain et il n'y aura pas de cours.",
+      "N'hésitez pas à me contacter pour toute question."
+    ],
+    de: [
+      "Guten Tag liebe Familien,",
+      "wir wurden benachrichtigt, dass der Sonderplan für Hochwassernotfälle Kataloniens (INUNCAT) aktiviert wurde. Infolgedessen entfällt morgen, Mittwoch, den 9. September, der Unterricht an der Schule.",
+      "Diese Maßnahme betrifft die Bildungseinrichtungen der in der Verfügung genannten Comarques, darunter auch Baix Llobregat, und dient der Sicherheit der Schülerinnen und Schüler sowie der gesamten Schulgemeinschaft angesichts der erwarteten Wetterlage.",
+      "Die Schule bleibt daher morgen geschlossen, es findet kein Unterricht statt.",
+      "Bei Fragen können Sie sich gerne an mich wenden."
+    ]
+  },
+  signature: {
+    en: "MARISA, Global Facilitator | Co-founder of MOMO",
+    es: "MARISA, Facilitadora Global | Cofundadora de MOMO",
+    ca: "MARISA, Facilitadora Global | Cofundadora de MOMO",
+    fr: "MARISA, Facilitatrice globale | Cofondatrice de MOMO",
+    de: "MARISA, Globale Facilitatorin | Mitbegründerin von MOMO"
+  },
+  buttonLabel: {
+    en: "I understand — Continue to the guide",
+    es: "Entendido — Continuar a la guía",
+    ca: "Entès — Continuar a la guia",
+    fr: "Compris — Continuer vers le guide",
+    de: "Verstanden — Weiter zum Leitfaden"
+  }
+};
+
+function entryNoticeDismissed(){
+  try { return localStorage.getItem("momoNoticeDismissed") === ENTRY_NOTICE.id; }
+  catch(e) { return false; }
+}
+
+function dismissEntryNotice(){
+  try { localStorage.setItem("momoNoticeDismissed", ENTRY_NOTICE.id); }
+  catch(e) { /* ignore — storage unavailable, notice will just show again next visit */ }
+}
+
+function renderEntryNotice(){
+  const existing = document.getElementById("entryNoticeOverlay");
+  if(existing) existing.remove();
+
+  const expired = new Date() >= new Date(ENTRY_NOTICE.expiresAt + "T00:00:00");
+  if(expired || entryNoticeDismissed()) return;
+
+  const lang = ENTRY_NOTICE.body[currentLang] ? currentLang : "en";
+  const bodyHtml = ENTRY_NOTICE.body[lang].map(p => "<p>" + p + "</p>").join("");
+  const langNames = {en:"EN", es:"ES", ca:"CA", fr:"FR", de:"DE"};
+  const langsHtml = Object.keys(ENTRY_NOTICE.title).map(l =>
+    '<button type="button" class="entry-notice-lang-btn' + (l === lang ? ' active' : '') + '" data-lang="' + l + '">' + langNames[l] + '</button>'
+  ).join("");
+
+  const overlay = document.createElement("div");
+  overlay.className = "entry-notice-overlay";
+  overlay.id = "entryNoticeOverlay";
+  overlay.innerHTML =
+    '<div class="entry-notice-card">' +
+      '<div class="entry-notice-langs">' + langsHtml + '</div>' +
+      '<div class="entry-notice-title">' + ENTRY_NOTICE.title[lang] + '</div>' +
+      '<div class="entry-notice-body">' + bodyHtml + '</div>' +
+      '<div class="entry-notice-signature">' + ENTRY_NOTICE.signature[lang] + '</div>' +
+      '<button type="button" class="entry-notice-btn" id="entryNoticeBtn">' + ENTRY_NOTICE.buttonLabel[lang] + '</button>' +
+    '</div>';
+  document.body.appendChild(overlay);
+  document.getElementById("entryNoticeBtn").addEventListener("click", () => {
+    dismissEntryNotice();
+    overlay.remove();
+  });
+  overlay.querySelectorAll(".entry-notice-lang-btn").forEach(btn => {
+    btn.addEventListener("click", () => applyLanguage(btn.dataset.lang));
+  });
+}
 
 function buildStats(){
   document.getElementById("stats").textContent =
@@ -1142,9 +1299,11 @@ function buildStats(){
 }
 
 document.getElementById("search").placeholder = UI[currentLang].search;
+document.getElementById("tagline").textContent = UI[currentLang].tagline;
 buildSidebar();
 buildStats();
 showPage("start");
+renderEntryNotice();
 
 let CAL_ACTIVE_CATEGORIES = null; // null = all active (lazy init)
 let CAL_DAY_INDEX = {}; // "YYYY-MM-DD" -> [eventId, ...], rebuilt on every calendar render
